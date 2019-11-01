@@ -18,14 +18,23 @@ int main(int argc, char *argv[]){
     argc--;
     argv++;
     if(argc == 0){
-        printf("LEXER:无输入文件");
+        printf("LEXER: 无输入文件");
         return 1;
     }else{
         while(argc > 0){
-            logcat("开始打开文件并运行");
-            in = fopen("test1.rd", "r");
+            #ifdef LOCAL
+            logcat("尝试打开文件并运行");
+            #endif
+            in = fopen(argv[0], "r");
+            if(in == NULL){ // 判断打开文件成功与否
+                printf("LEXER: 打开文件%s失败\n", argv[0]);
+                argc--;
+                argv++;
+                continue;
+            }
             initLexer(in);
             int temp = lexicallyAnalyse();
+            printf("temp = %d\n",temp);
             while(temp != EOF){
                 printf("row = %3d, col = %3d, 种别码 = %3d, 值 = '%s'\n", row, col, temp, yytext);
                 temp = lexicallyAnalyse();

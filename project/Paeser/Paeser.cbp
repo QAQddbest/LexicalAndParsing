@@ -22,6 +22,7 @@
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
 				<Option compiler="clang" />
+				<Option parameters="test1.rd" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>
