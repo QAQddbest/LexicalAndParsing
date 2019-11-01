@@ -494,20 +494,7 @@ char *yytext;
  *
 *********************************************************************************/
 #line 11 "Lexical.l"
-
-
-/* 定义本地调试模式 */
-#define LOCAL
-/* 定义本地调试模式 */
-#ifdef LOCAL
-#include <time.h>
-static void logcat(char *);
-int START_TIME;
-#endif
-
-
-static void setCol();
-int row = 1,col = 1;
+int row ,col;
 
 #define INT_ 1
 #define STR_ 2
@@ -540,7 +527,7 @@ int row = 1,col = 1;
 
 static int lastLeng = 0;
 
-#line 543 "Lexical.c"
+#line 530 "Lexical.c"
 /* 关键字定义 */
 /* 关键字定义结束 */
 /* 运算符定义 */
@@ -555,7 +542,7 @@ static int lastLeng = 0;
 /* 注释定义结束 */
 /* Start conditions定义 */
 /* Start conditions定义结束 */
-#line 558 "Lexical.c"
+#line 545 "Lexical.c"
 
 #define INITIAL 0
 
@@ -772,9 +759,9 @@ YY_DECL
 		}
 
 	{
-#line 114 "Lexical.l"
+#line 101 "Lexical.l"
 
-#line 777 "Lexical.c"
+#line 764 "Lexical.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -833,18 +820,18 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 115 "Lexical.l"
+#line 102 "Lexical.l"
 lastLeng += 1;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 116 "Lexical.l"
+#line 103 "Lexical.l"
 //吃掉
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 117 "Lexical.l"
+#line 104 "Lexical.l"
 {
                                 row++;
                                 col = 1;
@@ -854,7 +841,7 @@ YY_RULE_SETUP
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 122 "Lexical.l"
+#line 109 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -863,7 +850,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 127 "Lexical.l"
+#line 114 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -872,7 +859,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 132 "Lexical.l"
+#line 119 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -881,7 +868,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 137 "Lexical.l"
+#line 124 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -890,7 +877,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 142 "Lexical.l"
+#line 129 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -899,7 +886,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 147 "Lexical.l"
+#line 134 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -908,7 +895,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 152 "Lexical.l"
+#line 139 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -917,7 +904,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 157 "Lexical.l"
+#line 144 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -926,7 +913,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 162 "Lexical.l"
+#line 149 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -935,7 +922,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 167 "Lexical.l"
+#line 154 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -944,7 +931,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 172 "Lexical.l"
+#line 159 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -953,7 +940,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 177 "Lexical.l"
+#line 164 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -962,7 +949,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 182 "Lexical.l"
+#line 169 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -971,7 +958,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 187 "Lexical.l"
+#line 174 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -980,7 +967,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 192 "Lexical.l"
+#line 179 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -989,7 +976,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 197 "Lexical.l"
+#line 184 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -998,7 +985,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 202 "Lexical.l"
+#line 189 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -1007,7 +994,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 207 "Lexical.l"
+#line 194 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -1016,7 +1003,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 212 "Lexical.l"
+#line 199 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -1025,7 +1012,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 217 "Lexical.l"
+#line 204 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -1034,7 +1021,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 222 "Lexical.l"
+#line 209 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -1043,7 +1030,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 227 "Lexical.l"
+#line 214 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -1052,7 +1039,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 232 "Lexical.l"
+#line 219 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -1061,7 +1048,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 237 "Lexical.l"
+#line 224 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -1070,7 +1057,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 242 "Lexical.l"
+#line 229 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -1079,7 +1066,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 247 "Lexical.l"
+#line 234 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -1088,7 +1075,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 252 "Lexical.l"
+#line 239 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -1097,7 +1084,7 @@ YY_RULE_SETUP
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 257 "Lexical.l"
+#line 244 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -1105,17 +1092,17 @@ YY_RULE_SETUP
                             }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 262 "Lexical.l"
+#line 249 "Lexical.l"
 {
                                 return EOF;
                             }
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 265 "Lexical.l"
+#line 252 "Lexical.l"
 ECHO;
 	YY_BREAK
-#line 1118 "Lexical.c"
+#line 1105 "Lexical.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -2118,27 +2105,14 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 265 "Lexical.l"
+#line 252 "Lexical.l"
 
-int lexicallyAnalysze(){
-    int temp = yylex();
-    return temp;
+void initLexer(FILE *lex){
+    yyin = lex;
+    row = 1;
+	col = 1;
 }
-#ifdef LOCAL
-void logcat(char *s){
-    time_t t;
-    t = time(NULL);
-    printf("%ld : \n%s\n", t, s);
+int lexicallyAnalyse(){
+    return yylex();
 }
-int main(){
-    yyin = fopen("test.rd","r");
-    int temp = yylex();
-    while(temp != EOF){
-        printf("row = %3d, col = %3d, 种别码 = %3d, 值 = '%s'\n", row, col, temp, yytext);
-        temp = yylex();
-    }
-    return 0;
-}
-#endif
-
 

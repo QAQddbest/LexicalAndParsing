@@ -8,20 +8,7 @@
 
 
 %{
-
-
-/* 定义本地调试模式 */
-#define LOCAL
-/* 定义本地调试模式 */
-#ifdef LOCAL
-#include <time.h>
-static void logcat(char *);
-int START_TIME;
-#endif
-
-
-static void setCol();
-int row = 1,col = 1;
+int row ,col;
 
 #define INT_ 1
 #define STR_ 2
@@ -263,24 +250,11 @@ COMMENT                     \/\/.*
                                 return EOF;
                             }
 %%
-int lexicallyAnalysze(){
-    int temp = yylex();
-    return temp;
+void initLexer(FILE *lex){
+    yyin = lex;
+    row = 1;
+	col = 1;
 }
-#ifdef LOCAL
-void logcat(char *s){
-    time_t t;
-    t = time(NULL);
-    printf("%ld : \n%s\n", t, s);
+int lexicallyAnalyse(){
+    return yylex();
 }
-int main(){
-    yyin = fopen("test.rd","r");
-    int temp = yylex();
-    while(temp != EOF){
-        printf("row = %3d, col = %3d, 种别码 = %3d, 值 = '%s'\n", row, col, temp, yytext);
-        temp = yylex();
-    }
-    return 0;
-}
-#endif
-
