@@ -1,24 +1,20 @@
 /*
- * @author: OliverDD
+ * @author: 丁志鹏
  * @date: 2019-11-01
  * @license: MIT
- * @description:
+ * @description: The main.c's head file
  */
 #ifndef MAIN_H
 #define MAIN_H
 
-#include <stdio.h>
+#include "project.h"
 #include <stdlib.h>
 #include <string.h>
 
-/* 定义本地调试模式 */
-#define LOCAL
-/* 定义本地调试模式 */
-
 #ifdef LOCAL
 #include <time.h>
+#include "../tools.h"
 extern long START_TIME;
-void logcat(char *);
 #endif // LOCAL
 
 void initLexer(FILE *);

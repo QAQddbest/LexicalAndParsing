@@ -1,4 +1,7 @@
-Paeser.depend
-Paeser.layout
+*.depend
+*.layout
+*.cbp
 *.o
 *.out
+./project/Parser/obj
+./project/Parser/bin
