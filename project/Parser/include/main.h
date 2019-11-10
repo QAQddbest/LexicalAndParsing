@@ -14,7 +14,6 @@
 #ifdef LOCAL
 #include <time.h>
 #include "../tools.h"
-extern long START_TIME;
 #endif // LOCAL
 
 void initLexer(FILE *);

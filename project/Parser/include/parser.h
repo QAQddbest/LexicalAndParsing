@@ -12,5 +12,4 @@
 #include <stdbool.h>
 
 
-
 #endif // PARSER_H

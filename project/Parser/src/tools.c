@@ -4,8 +4,7 @@
  * @license: MIT
  * @description: Some functions that would run anywhere.
  */
-long START_TIME;
-time_t t;
+#include "../include/tools.h"
 void logcat(char *s) {
     /*
      * @author: 丁志鹏
@@ -14,6 +13,6 @@ void logcat(char *s) {
      * @return: None
      * @alarm: 使用注意，需在函数运行时确认START_TIME的值
      */
-    t = time(NULL);
+    time_t t = time(NULL);
     printf("%ld : %s\n", t - START_TIME, s);
 }

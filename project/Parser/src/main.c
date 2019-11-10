@@ -42,6 +42,9 @@ int main(int argc, char *argv[]) {
                 argv++;
                 continue;
             }
+#ifdef LOCAL
+            logcat("开始语法分析");
+#endif // LOCAL
             initLexer(in);
             int temp = lexicallyAnalyse();
             printf("temp = %d\n",temp);

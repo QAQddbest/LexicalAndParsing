@@ -5,6 +5,8 @@
 
 /* 定义本地调试模式 */
 #define LOCAL
-/* 定义本地调试模式 */
+
+extern long START_TIME;
+
 
 #endif // PROJECT_H
