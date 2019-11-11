@@ -35,7 +35,7 @@
 #define NUMBER_ 26
 #define ID_ 27
 #define STRING_ 28
-#define LR_ 29
+#define LB_ 29
 #define RB_ 30
 #define SCAN_ 31
 #define PERCENT_ 32

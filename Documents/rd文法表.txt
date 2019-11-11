@@ -84,7 +84,6 @@ cmp_expr
     : add_expr { CMP add_expr }
     ;
 
-
 add_expr
     : mul_expr {  '+' mul_expr | '-' mul_expr }
     ;
@@ -96,14 +95,13 @@ mul_expr
 primary_expr
     : ID '(' expr_list ')'
     | ID '(' ')'
-    | '(' expr ')'
     | ID
-    | NUMBER
-    | STRING
-    | ID ASSIGN expr
     | ID '=' expr
     | ID '[' expr ']'
     | ID '[' expr ']' '=' expr
+    | '(' expr ')'
+    | NUMBER
+    | STRING
     ;
 	
 expr_list

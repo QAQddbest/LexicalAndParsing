@@ -1,6 +1,5 @@
 *.depend
 *.layout
-*.cbp
 *.o
 *.out
 ./project/Parser/obj
