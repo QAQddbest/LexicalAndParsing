@@ -267,6 +267,7 @@ void initLexer(FILE *lex){
     nnToken.row = row;
     nnToken.col = col;
     nnToken.value = (char *)calloc(strlen(yytext), sizeof(char));
+	memcpy(nnToken.value, yytext, strlen(yytext));
 }
 void lexicallyAnalyse(){
     nToken = nnToken;
@@ -275,5 +276,9 @@ void lexicallyAnalyse(){
         nnToken.row = row;
         nnToken.col = col;
         nnToken.value = (char *)calloc(strlen(yytext), sizeof(char));
+		memcpy(nnToken.value, yytext, strlen(yytext));
     }
+#ifdef LOCAL
+	printf("当前%s(%d) %d:%d\n", nToken.value, nToken.code, nToken.col, nToken.row);
+#endif //LOCAL
 }

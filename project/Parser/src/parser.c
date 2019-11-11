@@ -12,186 +12,11 @@
 
 void parsingAnalyse(FILE *in) {
     initLexer(in);
+    lexicallyAnalyse();
     if(false == analyseProgram()){
         throwError("语法分析","语法分析时出错");
-    }
-}
-
-
-static bool analyseCmpExpr() {
-    /*
-     * @author: 丁志鹏
-     * @para: None
-     * @return: bool
-     *          true    成功识别
-     *          false   不符合
-     */
-    if(true != analyseExpr()) {
-        throwError("cmp_expr", "分析Expr时出错");
-        return false;
-    }
-    while(true == analyseExpr()) {} //循环判断
-    return true;
-}
-
-static bool analyseAddExpr() {
-    /*
-     * @author: 丁志鹏
-     * @para: None
-     * @return: bool
-     *          true    成功识别
-     *          false   不符合
-     */
-    if(true != analyseMulExpr()) {
-        throwError("add_expr", "分析mul_expr时出错");
-        return false;
-    }
-    while(SUB_ == nToken.code || PLUS_ == nToken.code) {
-        lexicallyAnalyse();
-        if(true != analyseMulExpr()) {
-            throwError("add_expr", "分析mul_expr时出错");
-            return false;
-        }
-    }
-    return true;
-}
-
-static bool analyseMulExpr() {
-    /*
-     * @author: 丁志鹏
-     * @para: None
-     * @return: bool
-     *          true    成功识别
-     *          false   不符合
-     */
-    while(SUB_ == nToken.code) { //吃掉多余负号
-        lexicallyAnalyse();
-    }
-    if(true != analysePrimaryExpr()) {
-        throwError("add_expr", "分析primary_expr时出错");
-        return false;
-    }
-    while(MUL_ == nToken.code || DIV_ == nToken.code || PERCENT_ == nToken.code) {
-        lexicallyAnalyse();
-        if(true != analysePrimaryExpr()) {
-            throwError("add_expr", "分析primary_expr时出错");
-            return false;
-        }
-    }
-    return true;
-}
-
-static bool analysePrimaryExpr() {
-    /*
-     * @author: 丁志鹏
-     * @para: None
-     * @return: bool
-     *          true    成功识别
-     *          false   不符合
-     */
-    if(NUMBER_ == nToken.code || STRING_ == nToken.code) { //判断数字与字符串
-        lexicallyAnalyse();
-    } else if(LP_ == nToken.code) { //判断到左括号
-        lexicallyAnalyse();
-        if(true != analyseExpr()) {
-            throwError("primary_expr", "格式'( expr )'错误");
-            return false;
-        }
-        if(RP_ == nToken.code)
-            lexicallyAnalyse();
-        else
-            return false;
-    } else if(ID_ == nToken.code) { //判断到ID
-        lexicallyAnalyse();
-        if(LP_ == nToken.code) { ///检测到左括号
-            lexicallyAnalyse();
-            if(RB_ == nToken.code) { ////若为ID '(' ')'，直接返回true
-                lexicallyAnalyse();
-                return true;
-            }
-            if(true != analyseExprList()) { ////再判断expr_list
-                throwError("primary_expr", "格式ID '(' expr_list ')'错误");
-                return false;
-            }
-        } else if(ASSIGNOP_ == nToken.code) { ///检测到等于号
-            lexicallyAnalyse();
-            if(true != analyseExprList()) { ////再判断expr_list
-                throwError("primary_expr", "格式ID '(' expr_list ')'错误");
-                return false;
-            }
-        } else if(LB_ == nToken.code) { ///检测到左中括号
-            lexicallyAnalyse();
-            if(true != analyseExpr()) { ////再判断expr
-                throwError("primary_expr", "格式ID '(' expr_list ')'错误");
-                return false;
-            }
-            if(RB_ != nToken.code) { ////再判断右中括号
-                throwError("primary_expr", "格式ID '(' expr_list ')'错误");
-                return false;
-            }
-            lexicallyAnalyse();////已经匹配了右中括号,读入下一个
-            if(ASSIGNOP_ == nToken.code) { /* ！发现异常！ */
-                /* 若发现=，但后不跟expr，就会报错。但也有可能=是其他的 */
-                lexicallyAnalyse();
-                if(true != analyseExpr()) {
-                    throwError("primary_expr", "格式ID '[' expr ']' '=' expr错误");
-                    return false;
-                }
-            }
-        }///判断到ID的内部if
-    } else { //没有匹配项目
-        throwError("primary_expr", "分析primay_expr时无匹配格式");
-        return false;
-    }//结束
-    return true;
-}
-
-
-static bool analyseIdList() {
-    /*
-    * @author: 王明远
-    * @para: None
-    * @return: bool
-    *          true    成功识别IdList
-    *          false   不符合IdList
-    */
-    if(nToken.code == ID_ ) {
-        lexicallyAnalyse();
-        while(nToken.code == COMMA_) { // ',' COMMA_
-            lexicallyAnalyse();
-            if(nToken.code != ID_) {
-                throwError("id_list", "分析ID时出错");
-                return false;
-            }
-        }
-        return true;
-    } else {
-        throwError("id_list", "无匹配出错");
-        return false;
-    }
-}
-
-static bool analyseExprList() {
-    /*
-    * @author: 王明远
-    * @para: None
-    * @return: bool
-    *          true    成功识别ExprList
-    *          false   不符合ExprList
-    */
-    if(analyseExpr() == true) {
-        lexicallyAnalyse();
-        while(nToken.code == COMMA_) { // ',' COMMA_
-            lexicallyAnalyse();
-            if(analyseExpr() == false) {
-                throwError("expr_list","分析expr时出错");
-                return false;
-            }
-        }
-        return true;
-    } else {
-        throwError("id_list", "无匹配出错");
-        return false;
+    }else{
+        printf("执行完毕");
     }
 }
 
@@ -226,6 +51,9 @@ static bool analyseExternalDeclaration() {
      *          false   不符合ExternalDeclaration
      */
     if(analyseType() == true) {
+#ifdef LOCAL
+        printf("external_declaration:%d:%d 正在分析%s ( %d )\n",nToken.col, nToken.row, nToken.value, nToken.code);
+#endif // LOCAL
         if(analyseDeclarator() == true) {
             if(analyseDeclOrStmt() == true) {
                 return true;
@@ -360,6 +188,9 @@ static bool analyseDeclarator() {
     *          true    成功识别Declarator
     *          false   不符合Declarator
     */
+#ifdef LOCAL
+    printf("declarator:%d:%d 正在分析%s ( %d )\n",nToken.col, nToken.row, nToken.value, nToken.code);
+#endif // LOCAL
     if(nToken.code == ID_) {
         lexicallyAnalyse();
         if(nToken.code == ASSIGNOP_) { // '='
@@ -451,6 +282,9 @@ static bool analyseDeclarator() {
             return true; // ID 后面允许不跟任何东西
         }
     } else {
+#ifdef LOCAL
+        printf("declarator:%d:%d 正在分析%s ( %d )\n",nToken.col, nToken.row, nToken.value, nToken.code);
+#endif // LOCAL
         throwError("declarator","分析ID时出错");
         return false;
     }
@@ -747,6 +581,182 @@ static bool analyseExpr() {
     }
 }
 
+static bool analyseCmpExpr() {
+    /*
+     * @author: 丁志鹏
+     * @para: None
+     * @return: bool
+     *          true    成功识别
+     *          false   不符合
+     */
+    if(true != analyseExpr()) {
+        throwError("cmp_expr", "分析Expr时出错");
+        return false;
+    }
+    while(true == analyseExpr()) {} //循环判断
+    return true;
+}
+
+static bool analyseAddExpr() {
+    /*
+     * @author: 丁志鹏
+     * @para: None
+     * @return: bool
+     *          true    成功识别
+     *          false   不符合
+     */
+    if(true != analyseMulExpr()) {
+        throwError("add_expr", "分析mul_expr时出错");
+        return false;
+    }
+    while(SUB_ == nToken.code || PLUS_ == nToken.code) {
+        lexicallyAnalyse();
+        if(true != analyseMulExpr()) {
+            throwError("add_expr", "分析mul_expr时出错");
+            return false;
+        }
+    }
+    return true;
+}
+
+static bool analyseMulExpr() {
+    /*
+     * @author: 丁志鹏
+     * @para: None
+     * @return: bool
+     *          true    成功识别
+     *          false   不符合
+     */
+    while(SUB_ == nToken.code) { //吃掉多余负号
+        lexicallyAnalyse();
+    }
+    if(true != analysePrimaryExpr()) {
+        throwError("add_expr", "分析primary_expr时出错");
+        return false;
+    }
+    while(MUL_ == nToken.code || DIV_ == nToken.code || PERCENT_ == nToken.code) {
+        lexicallyAnalyse();
+        if(true != analysePrimaryExpr()) {
+            throwError("add_expr", "分析primary_expr时出错");
+            return false;
+        }
+    }
+    return true;
+}
+
+static bool analysePrimaryExpr() {
+    /*
+     * @author: 丁志鹏
+     * @para: None
+     * @return: bool
+     *          true    成功识别
+     *          false   不符合
+     */
+    if(NUMBER_ == nToken.code || STRING_ == nToken.code) { //判断数字与字符串
+        lexicallyAnalyse();
+    } else if(LP_ == nToken.code) { //判断到左括号
+        lexicallyAnalyse();
+        if(true != analyseExpr()) {
+            throwError("primary_expr", "格式'( expr )'错误");
+            return false;
+        }
+        if(RP_ == nToken.code)
+            lexicallyAnalyse();
+        else
+            return false;
+    } else if(ID_ == nToken.code) { //判断到ID
+        lexicallyAnalyse();
+        if(LP_ == nToken.code) { ///检测到左括号
+            lexicallyAnalyse();
+            if(RB_ == nToken.code) { ////若为ID '(' ')'，直接返回true
+                lexicallyAnalyse();
+                return true;
+            }
+            if(true != analyseExprList()) { ////再判断expr_list
+                throwError("primary_expr", "格式ID '(' expr_list ')'错误");
+                return false;
+            }
+        } else if(ASSIGNOP_ == nToken.code) { ///检测到等于号
+            lexicallyAnalyse();
+            if(true != analyseExprList()) { ////再判断expr_list
+                throwError("primary_expr", "格式ID '(' expr_list ')'错误");
+                return false;
+            }
+        } else if(LB_ == nToken.code) { ///检测到左中括号
+            lexicallyAnalyse();
+            if(true != analyseExpr()) { ////再判断expr
+                throwError("primary_expr", "格式ID '(' expr_list ')'错误");
+                return false;
+            }
+            if(RB_ != nToken.code) { ////再判断右中括号
+                throwError("primary_expr", "格式ID '(' expr_list ')'错误");
+                return false;
+            }
+            lexicallyAnalyse();////已经匹配了右中括号,读入下一个
+            if(ASSIGNOP_ == nToken.code) { /* ！发现异常！ */
+                /* 若发现=，但后不跟expr，就会报错。但也有可能=是其他的 */
+                lexicallyAnalyse();
+                if(true != analyseExpr()) {
+                    throwError("primary_expr", "格式ID '[' expr ']' '=' expr错误");
+                    return false;
+                }
+            }
+        }///判断到ID的内部if
+    } else { //没有匹配项目
+        throwError("primary_expr", "分析primay_expr时无匹配格式");
+        return false;
+    }//结束
+    return true;
+}
+
+
+static bool analyseIdList() {
+    /*
+    * @author: 王明远
+    * @para: None
+    * @return: bool
+    *          true    成功识别IdList
+    *          false   不符合IdList
+    */
+    if(nToken.code == ID_ ) {
+        lexicallyAnalyse();
+        while(nToken.code == COMMA_) { // ',' COMMA_
+            lexicallyAnalyse();
+            if(nToken.code != ID_) {
+                throwError("id_list", "分析ID时出错");
+                return false;
+            }
+        }
+        return true;
+    } else {
+        throwError("id_list", "无匹配出错");
+        return false;
+    }
+}
+
+static bool analyseExprList() {
+    /*
+    * @author: 王明远
+    * @para: None
+    * @return: bool
+    *          true    成功识别ExprList
+    *          false   不符合ExprList
+    */
+    if(analyseExpr() == true) {
+        lexicallyAnalyse();
+        while(nToken.code == COMMA_) { // ',' COMMA_
+            lexicallyAnalyse();
+            if(analyseExpr() == false) {
+                throwError("expr_list","分析expr时出错");
+                return false;
+            }
+        }
+        return true;
+    } else {
+        throwError("id_list", "无匹配出错");
+        return false;
+    }
+}
 
 
 
