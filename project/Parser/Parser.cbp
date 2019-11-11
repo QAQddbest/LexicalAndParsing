@@ -4,14 +4,15 @@
 	<Project>
 		<Option title="Parser" />
 		<Option pch_mode="2" />
-		<Option compiler="clang" />
+		<Option compiler="gcc" />
 		<Build>
 			<Target title="Debug">
 				<Option output="bin/Debug/Parser" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Debug/" />
 				<Option type="1" />
-				<Option compiler="clang" />
+				<Option compiler="gcc" />
 				<Option parameters="test1.rd" />
+				<Option projectCompilerOptionsRelation="1" />
 				<Compiler>
 					<Add option="-g" />
 				</Compiler>
@@ -20,8 +21,9 @@
 				<Option output="bin/Release/Parser" prefix_auto="1" extension_auto="1" />
 				<Option object_output="obj/Release/" />
 				<Option type="1" />
-				<Option compiler="clang" />
+				<Option compiler="gcc" />
 				<Option parameters="test.rd test1.rd" />
+				<Option projectCompilerOptionsRelation="1" />
 				<Compiler>
 					<Add option="-O2" />
 				</Compiler>

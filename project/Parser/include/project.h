@@ -10,7 +10,6 @@
 #define INT_ 1
 #define STR_ 2
 #define RETURN_ 3
-#define MAIN_ 4
 #define IF_ 5
 #define ELSE_ 6
 #define WHILE_ 7

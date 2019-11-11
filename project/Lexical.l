@@ -28,7 +28,6 @@ VOID                        void
 INT                         int
 STR                         str
 RETURN                      return
-MAIN                        main
 IF                          if
 ELSE                        else
 WHILE                       while
@@ -119,11 +118,6 @@ COMMENT                     \/\/.*
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return RETURN_;
-                            }
-{MAIN}                      {
-                                col += lastLeng;
-                                lastLeng = yyleng;
-                                return MAIN_;
                             }
 {IF}                        {
                                 col += lastLeng;
@@ -279,6 +273,6 @@ void lexicallyAnalyse(){
 		memcpy(nnToken.value, yytext, strlen(yytext));
     }
 #ifdef LOCAL
-	printf("当前%s(%d) %d:%d\n", nToken.value, nToken.code, nToken.col, nToken.row);
+	printf("当前 '%6s' (%d) %d:%d\n", nToken.value, nToken.code, nToken.row, nToken.col);
 #endif //LOCAL
 }
