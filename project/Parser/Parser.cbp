@@ -46,8 +46,6 @@
 		</Unit>
 		<Unit filename="src/parser.c">
 			<Option compilerVar="CC" />
-			<Option compile="0" />
-			<Option link="0" />
 		</Unit>
 		<Unit filename="src/tools.c">
 			<Option compilerVar="CC" />

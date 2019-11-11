@@ -14,6 +14,25 @@
 void initLexer(FILE *);
 void lexicallyAnalyse();
 
-
+static bool analyseCmpExpr();
+static bool analyseAddExpr();
+static bool analyseMulExpr();
+static bool analysePrimaryExpr();
+static bool analyseExprList();
+static bool analyseIdList();
+static bool analyseProgram();
+static bool analyseExternalDeclaration();
+static bool analyseDeclOrStmt();
+static bool analyseDeclaratorList();
+static bool analyseIntstrList();
+static bool analyseInitializer();
+static bool analyseDeclarator();
+static bool analyseParameterList();
+static bool analyseParameter();
+static bool analyseType();
+static bool analyseStatement();
+static bool analyseStatementList();
+static bool analyseExprStatement();
+static bool analyseExpr();
 
 #endif // PARSER_H

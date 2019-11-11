@@ -11,4 +11,6 @@
 #include <stdlib.h>
 #include <string.h>
 
+void parsingAnalyse(FILE *);
+
 #endif // MAIN_H

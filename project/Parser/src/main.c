@@ -45,7 +45,7 @@ int main(int argc, char *argv[]) {
 #ifdef LOCAL
             logcat("开始语法分析");
 #endif // LOCAL
-
+            parsingAnalyse(in);
 #ifdef LOCAL
             logcat("语法分析结束");
 #endif // LOCAL
