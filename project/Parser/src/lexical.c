@@ -2120,9 +2120,11 @@ void initLexer(FILE *lex){
 }
 void lexicallyAnalyse(){
     nToken = nnToken;
-    nnToken.code = yylex();
-    nnToken.row = row;
-    nnToken.col = col;
-    nnToken.value = (char *)calloc(strlen(yytext), sizeof(char));
+    if(EOF != nnToken.code){//若nnToken已经抵达文件末尾，则无需读取下一个
+        nnToken.code = yylex();
+        nnToken.row = row;
+        nnToken.col = col;
+        nnToken.value = (char *)calloc(strlen(yytext), sizeof(char));
+    }
 }
 

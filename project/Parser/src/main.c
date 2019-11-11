@@ -6,7 +6,7 @@
  */
 #include "../include/main.h"
 #ifdef LOCAL
-#include "tools.h"
+#include ".././include/tools.h"
 #endif // LOCAL
 
 int main(int argc, char *argv[]) {

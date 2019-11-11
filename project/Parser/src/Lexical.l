@@ -48,6 +48,7 @@ PLUS                        [+]
 SUB                         [-]
 MUL                         [*]
 DIV                         [/]
+PERCENT                     [%]
 /* 运算符定义结束 */
 
 /* 分界符定义 */
@@ -57,6 +58,8 @@ LP                          [(]
 RP                          [)]
 LC                          [{]
 RC                          [}]
+LB                          [[]
+RB                          []]
 /* 分界符定义结束 */
 
 /* 常数定义 */
@@ -197,6 +200,11 @@ COMMENT                     \/\/.*
                                 lastLeng = yyleng;
                                 return DIV_;
                             }
+{PERCENT}                   {
+                                col += lastLeng;
+                                lastLeng = yyleng;
+                                return PERCENT_;
+                            }
 {COMMA}                     {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -227,6 +235,16 @@ COMMENT                     \/\/.*
                                 lastLeng = yyleng;
                                 return RC_;
                             }
+{LB}                        {
+                                col += lastLeng;
+                                lastLeng = yyleng;
+                                return LB_;
+                            }
+{RB}                        {
+                                col += lastLeng;
+                                lastLeng = yyleng;
+                                return RB_;
+                            }
 {STA_NUMBER}                {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -252,8 +270,10 @@ void initLexer(FILE *lex){
 }
 void lexicallyAnalyse(){
     nToken = nnToken;
-    nnToken.code = yylex();
-    nnToken.row = row;
-    nnToken.col = col;
-    nnToken.value = (char *)calloc(strlen(yytext), sizeof(char));
+    if(EOF != nnToken.code){//若nnToken已经抵达文件末尾，则无需读取下一个
+        nnToken.code = yylex();
+        nnToken.row = row;
+        nnToken.col = col;
+        nnToken.value = (char *)calloc(strlen(yytext), sizeof(char));
+    }
 }

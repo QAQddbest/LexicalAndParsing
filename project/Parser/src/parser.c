@@ -2,309 +2,97 @@
  * @author: 丁志鹏
  * @date: 2019-11-10
  * @license: MIT
- * @description: 词法分析所需的全部主函数。
+ * @description: 词法分析所需的全部主函数。每读取一个终结符，调用一次lexicallyAnalyse()
  */
 #include "../include/parser.h"
-bool analyseProgram(){
+#ifdef LOCAL
+#include "tools.h"
+#endif // LOCAL
+
+static bool analyseCmpExpr(){
     /*
-     * @author: 黄粤升
+     * @author: 丁志鹏
      * @para: None
      * @return: bool
-     *          true    成功识别IntstrList
-     *          false   不符合IntstrList
+     *          true    成功识别
+     *          false   不符合
+     */
+    if(true != analyseExpr()){
+        throwError("cmp_expr", "分析Expr时出错");
+        return false;
+    }else{
+        while(true == analyseExpr()){//循环判断
+
+        }
+    }
+    return true;
+}
+
+static bool analyseAddExpr(){
+    /*
+     * @author: 丁志鹏
+     * @para: None
+     * @return: bool
+     *          true    成功识别
+     *          false   不符合
+     */
+    if(true != analyseMulExpr()){
+        throwError("add_expr", "分析mul_expr时出错");
+        return false;
+    }else{
+        while(SUB_ == nToken.code || PLUS_ == nToken.code){
+            lexicallyAnalyse();
+            if(true != analyseMulExpr()){
+                throwError("add_expr", "分析mul_expr时出错");
+                return false;
+            }
+        }
+    }
+}
+
+static bool analyseMulExpr(){
+    /*
+     * @author: 丁志鹏
+     * @para: None
+     * @return: bool
+     *          true    成功识别
+     *          false   不符合
+     */
+    while(SUB_ == nToken.code){//吃掉多余负号
+        lexicallyAnalyse();
+    }
+    if(true != analysePrimaryExpr()){
+        throwError("add_expr", "分析primary_expr时出错");
+        return false;
+    }else{
+        while(MUL_ == nToken.code || DIV_ == nToken.code
+                                  || PERCENT_ == nToken.code){
+            lexicallyAnalyse();
+            if(true != analysePrimaryExpr()){
+                throwError("add_expr", "分析primary_expr时出错");
+                return false;
+            }
+        }
+    }
+    return true;
+}
+
+static bool analysePrimaryExpr(){
+    /*
+     * @author: 丁志鹏
+     * @para: None
+     * @return: bool
+     *          true    成功识别
+     *          false   不符合
      */
 
 }
 
-bool analyseIntstrList() {
-    /*
-     * @author: 黄粤升
-     * @para: None
-     * @return: bool
-     *          true    成功识别IntstrList
-     *          false   不符合IntstrList
-     */
-    if(analyseInitializer() == true) {
-        while(nextToken == ',') {
-            if(analyseInitializer() == false) {
-                return false;
-            }
-        }
-        return true;
-    } else {
-        return false;
-    }
-}
 
-bool analyseInitializer() {
-    if(nextToken == NUMBER || nextToken == STRING) {
-        return true;
-    } else {
-        // error()
-        return false;
-    }
-}
 
-bool analyseDeclarator() {
-    if(nextToken == ID) {
-        if(nextToken == '=' ) {
-            if(analyseExpr() == true) {
-                return true;
-            } else {
-                return false;
-            }
-        } else if(nextToken == '(' ) {
-            if(nextToken == ')' ) {
-                return true;
-            } else if(analyseParameterList() == true) {
-                if(nextToen == ')' ) {
-                    return true;
-                } else {
-                    // error()
-                    return false;
-                }
-            }
-        } else if(nextToken == '[' ) {
-            if(nextToken == ']') {
-                if(nextToken == '=') {
-                    if(nextToken == '{') {
-                        if(analyseInstrList() == true) {
-                            if(nextToken == '}') {
-                                return true;
-                            } else {
-                                // error();
-                                return false;
-                            }
-                        } else {
-                            return false;
-                        }
-                    } else {
-                        // error();
-                        return false;
-                    }
-                } else {
-                    return true; // ']' ºóÃæÔÊÐí²»¸úÈÎºÎ¶«Î÷
-                }
-            } else if(analyseExpr() == true) {
-                if(nextToken == ']') {
-                    if(nextToken == '=') {
-                        if(nextToken == '{') {
-                            if(analyseInstrList() == true) {
-                                if(nextToken == '}') {
-                                    return true;
-                                } else {
-                                    // error();
-                                    return false;
-                                }
-                            } else {
-                                return false;
-                            }
-                        } else {
-                            // error();
-                            return false;
-                        }
-                    } else {
-                        return true; // ']' ºóÃæÔÊÐí²»¸úÈÎºÎ¶«Î÷
-                    }
-                } else {
-                    // error();
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        } else {
-            return true; // ID ºóÃæÔÊÐí²»¸úÈÎºÎ¶«Î÷
-        }
-    } else {
-        // error();
-        return false;
-    }
-}
 
-bool analyseParameterList() {
-    if(analyseParameter() == true) {
-        while(nextToken == ',') {
-            if(analyseParameter() == false) {
-                return false;
-            }
-        }
-    } else {
-        return false;
-    }
-}
 
-bool analyseParameter() {
-    if(analyseType() == true) {
-        if(nextToken == ID) {
-            return true;
-        } else {
-            // error();
-            return false;
-        }
-    } else {
-        return false;
-    }
-}
 
-bool analyseType() {
-    if(nextToken == INT || nextToken == STR || nextToken == VOID) {
-        return true;
-    } else {
-        // error()
-        return false;
-    }
-}
 
-bool analyseStatement() {
-    if(nextToken == '{') {
-        if(analyseStatementList() == true) {
-            if(nextToken == '}') {
-                return true;
-            } else {
-                // error()
-                return false;
-            }
-        } else {
-            return false;
-        }
-    } else if(nextToken == IF) {
-        if(nextToken == '(') {
-            if(analyseExpr() == true) {
-                if(nextToken == ')') {
-                    if(analyseStatement() == true) {
-                        if(nextToken == ELSE) {
-                            if(analyseStatement() == true) {
-                                return true;
-                            } else {
-                                return false;
-                            }
-                        } else {
-                            return true; // statement ºóÃæÔÊÐí²»½ÓÆäËû¶«Î÷
-                        }
-                    } else {
-                        return false;
-                    }
-                } else {
-                    // error()
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        } else {
-            // error()
-            return false;
-        }
-    } else if(nextToken == WHILE) {
-        if(nextToken == '(') {
-            if(analyseExpr() == true) {
-                if(nextToken == ')') {
-                    if(analyseStatement() == true) {
-                        return true;
-                    } else {
-                        return false;
-                    }
-                } else {
-                    // error()
-                    return false;
-                }
-            } else {
-                return false;
-            }
-        } else {
-            // error()
-            return false;
-        }
-    } else if(nextToken == RETURN) {
-        if(nextToken == ';') {
-            return true;
-        } else if(analyseExpr() == true) {
-            if(nextToken == ';') {
-                return true;
-            } else {
-                // error()
-                return false;
-            }
-        } else {
-            return false;
-        }
-    } else if(nextToken == PRINT) {
-        if(nextToken == ';') {
-            return true;
-        } else if(analyseExprList() == true) {
-            if(nextToken == ';') {
-                return true;
-            } else {
-                //    error()
-                return false;
-            }
-        } else {
-            return false;
-        }
-    } else if(nextToken == SCAN) {
-        if(analyseIdList() == true) {
-            if(nextToken == ';') {
-                return true;
-            } else {
-                // error()
-                return false;
-            }
-        } else {
-            return false;
-        }
-    } else if(analyseType() == true) {
-        if(analyseDeclaratorList) {
-            if(nextToken == ';') {
-                return true;
-            } else {
-                // error()
-                return false;
-            }
-        } else {
-            return false;
-        }
-    } else if(analyseExprStatement() == true) {
-        return true;
-    } else {
-        return false;
-    }
-}
-
-bool analyseStatementList() {
-    if(analyseStatement() == true) {
-        while(nextToken != '}') {
-            if(analyseStatement() != true) {
-                return false;
-            }
-        }
-        return true;
-    } else {
-        return false;
-    }
-}
-
-bool analyseExprStatement() {
-    if(nextToke == ';') {
-        return true;
-    } else if(analyseExpr() == true) {
-        if(nextToken == ';') {
-            return true;
-        } else {
-            // error()
-            return false;
-        }
-    } else {
-        return false;
-    }
-}
-
-bool analyseExpr() {
-    if(analyseCmpExpr() == true) {
-        return true;
-    } else {
-        return false;
-    }
-}
 
 

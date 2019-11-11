@@ -1,3 +1,4 @@
+/**********************************
 program
    : external_declaration { external_declartion }
    ;
@@ -78,20 +79,19 @@ expression_statement
 expr
     : cmp_expr
     ;
-
+**************************************************/
 cmp_expr
     : add_expr { CMP add_expr }
     ;
 
 
 add_expr
-    : mul_expr ( {  '+' mul_expr } | { '-' mul_expr } )
+    : mul_expr {  '+' mul_expr | '-' mul_expr }
     ;
 	
 mul_expr
-    : primary_expr ( { '*' primary_expr } | { '/' primary_expr } | { '%' primary_expr} )
-    | '-' primary_expr ( { '*' primary_expr } | { '/' primary_expr } | { '%' primary_expr} )
-    ;
+    : {'-'|空} primary_expr { '*' primary_expr | '/' primary_expr | '%' primary_expr}
+	;
 
 primary_expr
     : ID '(' expr_list ')'

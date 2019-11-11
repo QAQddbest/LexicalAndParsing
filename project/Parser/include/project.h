@@ -38,6 +38,7 @@
 #define LR_ 29
 #define RB_ 30
 #define SCAN_ 31
+#define PERCENT_ 32
 
 extern long START_TIME;
 
