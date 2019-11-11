@@ -7,6 +7,7 @@
 #include "../include/main.h"
 #ifdef LOCAL
 #include ".././include/tools.h"
+extern long START_TIME;
 #endif // LOCAL
 
 int main(int argc, char *argv[]) {

@@ -40,8 +40,6 @@
 #define SCAN_ 31
 #define PERCENT_ 32
 
-extern long START_TIME;
-
 typedef struct{
     int row;
     int col;

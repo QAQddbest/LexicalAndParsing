@@ -10,9 +10,6 @@
 #include "project.h"
 #include <time.h>
 
-/* 程序起始时间 */
-long START_TIME;
-
 void logcat(char *);
 void throwError(char *, char *);
 

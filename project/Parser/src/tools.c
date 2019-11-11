@@ -5,6 +5,10 @@
  * @description: Some functions that would run anywhere.
  */
 #include "../include/tools.h"
+
+/* 程序起始时间 */
+long START_TIME;
+
 void logcat(char *s) {
     /*
      * @author: 丁志鹏
@@ -17,5 +21,11 @@ void logcat(char *s) {
     printf("%ld : %s\n", t - START_TIME, s);
 }
 void throwError(char *place, char *message){
-    printf("%d:%d:%d %s\n", place, nToken.row, nToken.col, message);
+    /*
+     * @author: 丁志鹏
+     * @para:
+     * @return: None
+     * @alarm:
+     */
+    printf("%s:%d:%d %s\n", place, nToken.row, nToken.col, message);
 }
