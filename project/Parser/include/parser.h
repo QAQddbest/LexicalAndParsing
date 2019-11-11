@@ -11,5 +11,9 @@
 #include "project.h"
 #include <stdbool.h>
 
+void initLexer(FILE *);
+void lexicallyAnalyse();
+
+
 
 #endif // PARSER_H

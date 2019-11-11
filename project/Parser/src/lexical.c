@@ -1,6 +1,6 @@
-#line 1 "Lexical.c"
+#line 1 "lexical.c"
 
-#line 3 "Lexical.c"
+#line 3 "lexical.c"
 
 #define  YY_INT_ALIGNED short int
 
@@ -355,8 +355,8 @@ static void yynoreturn yy_fatal_error ( const char* msg  );
 	(yy_hold_char) = *yy_cp; \
 	*yy_cp = '\0'; \
 	(yy_c_buf_p) = yy_cp;
-#define YY_NUM_RULES 32
-#define YY_END_OF_BUFFER 33
+#define YY_NUM_RULES 34
+#define YY_END_OF_BUFFER 35
 /* This struct is not used in this scanner,
    but its presence is necessary. */
 struct yy_trans_info
@@ -364,15 +364,16 @@ struct yy_trans_info
 	flex_int32_t yy_verify;
 	flex_int32_t yy_nxt;
 	};
-static const flex_int16_t yy_accept[67] =
+static const flex_int16_t yy_accept[74] =
     {   0,
-        0,    0,   33,   32,    1,    3,   32,   32,   31,   26,
-       27,   22,   20,   24,   21,   23,   30,   30,   25,   16,
-       13,   14,   31,   31,   31,   31,   31,   31,   31,   28,
-       29,   19,    0,    4,   31,    2,   30,   17,   18,   15,
-       31,    9,   31,   31,   31,   31,   31,   31,    2,   31,
-        5,   31,   31,   31,    6,   31,   10,    8,   31,   31,
-       31,   12,   31,   11,    7,    0
+        0,    0,   35,   34,    1,    3,   34,   34,   33,   28,
+       29,   24,   22,   26,   23,   25,   32,   32,   27,   18,
+       15,   16,   33,   33,   33,   33,   33,   33,   33,   33,
+       30,   31,   21,    0,    4,   33,    2,   32,   19,   20,
+       17,   33,   11,   33,   33,   33,   33,   33,   33,   33,
+       33,    2,   33,    7,   33,   33,   33,   33,    8,   33,
+       33,   12,   10,   33,   33,    5,    6,   33,   14,   33,
+       13,    9,    0
     } ;
 
 static const YY_CHAR yy_ec[256] =
@@ -386,11 +387,11 @@ static const YY_CHAR yy_ec[256] =
        18,   19,    1,    1,    6,    6,    6,    6,    6,    6,
         6,    6,    6,    6,    6,    6,    6,    6,    6,    6,
         6,    6,    6,    6,    6,    6,    6,    6,    6,    6,
-        1,    1,    1,    1,    6,    1,   20,    6,    6,    6,
+        1,    1,    1,    1,    6,    1,   20,    6,   21,   22,
 
-       21,   22,    6,   23,   24,    6,    6,   25,   26,   27,
-        6,   28,    6,   29,   30,   31,   32,    6,   33,    6,
-        6,    6,   34,    1,   35,    1,    1,    1,    1,    1,
+       23,   24,    6,   25,   26,    6,    6,   27,   28,   29,
+       30,   31,    6,   32,   33,   34,   35,   36,   37,    6,
+        6,    6,   38,    1,   39,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
@@ -407,68 +408,72 @@ static const YY_CHAR yy_ec[256] =
         1,    1,    1,    1,    1
     } ;
 
-static const YY_CHAR yy_meta[36] =
+static const YY_CHAR yy_meta[40] =
     {   0,
         1,    1,    2,    1,    1,    3,    1,    1,    1,    1,
         1,    1,    1,    3,    3,    1,    1,    1,    1,    3,
         3,    3,    3,    3,    3,    3,    3,    3,    3,    3,
-        3,    3,    3,    1,    1
+        3,    3,    3,    3,    3,    3,    3,    1,    1
     } ;
 
-static const flex_int16_t yy_base[70] =
+static const flex_int16_t yy_base[77] =
     {   0,
-        0,    0,   77,   78,   78,   78,   58,   70,    0,   78,
-       78,   78,   78,   78,   78,   61,   78,   22,   78,   55,
-       54,   53,   45,   16,   49,   39,   46,   35,   42,   78,
-       78,   78,   59,   78,    0,    0,   25,   78,   78,   78,
-       33,    0,   31,   37,   36,   28,   29,   33,    0,   35,
-        0,   28,   27,   21,    0,   27,    0,    0,   20,   21,
-       27,    0,   15,    0,    0,   78,   43,   38,   46
+        0,    0,   87,   88,   88,   88,   68,   80,    0,   88,
+       88,   88,   88,   88,   88,   71,   88,   26,   88,   65,
+       64,   63,   53,   18,   59,   46,   54,   22,   46,   50,
+       88,   88,   88,   69,   88,    0,    0,   30,   88,   88,
+       88,   40,    0,   38,   45,   44,   35,   48,   35,   40,
+       39,    0,   41,    0,   34,   32,   20,   25,    0,   31,
+       25,    0,    0,   17,   18,    0,    0,   26,    0,   19,
+        0,    0,   88,   56,   43,   59
     } ;
 
-static const flex_int16_t yy_def[70] =
+static const flex_int16_t yy_def[77] =
     {   0,
-       66,    1,   66,   66,   66,   66,   66,   67,   68,   66,
-       66,   66,   66,   66,   66,   66,   66,   66,   66,   66,
-       66,   66,   68,   68,   68,   68,   68,   68,   68,   66,
-       66,   66,   67,   66,   68,   69,   66,   66,   66,   66,
-       68,   68,   68,   68,   68,   68,   68,   68,   69,   68,
-       68,   68,   68,   68,   68,   68,   68,   68,   68,   68,
-       68,   68,   68,   68,   68,    0,   66,   66,   66
+       73,    1,   73,   73,   73,   73,   73,   74,   75,   73,
+       73,   73,   73,   73,   73,   73,   73,   73,   73,   73,
+       73,   73,   75,   75,   75,   75,   75,   75,   75,   75,
+       73,   73,   73,   74,   73,   75,   76,   73,   73,   73,
+       73,   75,   75,   75,   75,   75,   75,   75,   75,   75,
+       75,   76,   75,   75,   75,   75,   75,   75,   75,   75,
+       75,   75,   75,   75,   75,   75,   75,   75,   75,   75,
+       75,   75,    0,   73,   73,   73
     } ;
 
-static const flex_int16_t yy_nxt[114] =
+static const flex_int16_t yy_nxt[128] =
     {   0,
         4,    5,    6,    7,    8,    9,   10,   11,   12,   13,
        14,   15,   16,   17,   18,   19,   20,   21,   22,    9,
-       23,    9,    9,   24,    9,   25,    9,   26,   27,   28,
-        9,    9,   29,   30,   31,   37,   37,   42,   37,   37,
-       35,   65,   43,   33,   33,   33,   49,   64,   49,   63,
-       62,   61,   60,   59,   58,   57,   56,   55,   54,   53,
-       52,   51,   50,   34,   48,   47,   46,   45,   44,   41,
-       40,   39,   38,   36,   34,   32,   66,    3,   66,   66,
-       66,   66,   66,   66,   66,   66,   66,   66,   66,   66,
-       66,   66,   66,   66,   66,   66,   66,   66,   66,   66,
+        9,    9,   23,    9,    9,   24,    9,   25,    9,    9,
+       26,   27,   28,    9,    9,   29,   30,   31,   32,   38,
+       38,   43,   48,   38,   38,   36,   44,   72,   71,   70,
+       69,   68,   67,   66,   65,   49,   34,   34,   34,   52,
+       64,   52,   63,   62,   61,   60,   59,   58,   57,   56,
+       55,   54,   53,   35,   51,   50,   47,   46,   45,   42,
+       41,   40,   39,   37,   35,   33,   73,    3,   73,   73,
+       73,   73,   73,   73,   73,   73,   73,   73,   73,   73,
 
-       66,   66,   66,   66,   66,   66,   66,   66,   66,   66,
-       66,   66,   66
+       73,   73,   73,   73,   73,   73,   73,   73,   73,   73,
+       73,   73,   73,   73,   73,   73,   73,   73,   73,   73,
+       73,   73,   73,   73,   73,   73,   73
     } ;
 
-static const flex_int16_t yy_chk[114] =
+static const flex_int16_t yy_chk[128] =
     {   0,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
         1,    1,    1,    1,    1,    1,    1,    1,    1,    1,
-        1,    1,    1,    1,    1,   18,   18,   24,   37,   37,
-       68,   63,   24,   67,   67,   67,   69,   61,   69,   60,
-       59,   56,   54,   53,   52,   50,   48,   47,   46,   45,
-       44,   43,   41,   33,   29,   28,   27,   26,   25,   23,
-       22,   21,   20,   16,    8,    7,    3,   66,   66,   66,
-       66,   66,   66,   66,   66,   66,   66,   66,   66,   66,
-       66,   66,   66,   66,   66,   66,   66,   66,   66,   66,
+        1,    1,    1,    1,    1,    1,    1,    1,    1,   18,
+       18,   24,   28,   38,   38,   75,   24,   70,   68,   65,
+       64,   61,   60,   58,   57,   28,   74,   74,   74,   76,
+       56,   76,   55,   53,   51,   50,   49,   48,   47,   46,
+       45,   44,   42,   34,   30,   29,   27,   26,   25,   23,
+       22,   21,   20,   16,    8,    7,    3,   73,   73,   73,
+       73,   73,   73,   73,   73,   73,   73,   73,   73,   73,
 
-       66,   66,   66,   66,   66,   66,   66,   66,   66,   66,
-       66,   66,   66
+       73,   73,   73,   73,   73,   73,   73,   73,   73,   73,
+       73,   73,   73,   73,   73,   73,   73,   73,   73,   73,
+       73,   73,   73,   73,   73,   73,   73
     } ;
 
 static yy_state_type yy_last_accepting_state;
@@ -489,45 +494,24 @@ char *yytext;
 /*********************************************************************************
  * @author: 丁志鹏(OliverDD)
  * @email: oliverdd@std.uestc.edu.cn
- * @desctipiton: 词法分析器。因为仅仅输出语法树，无需具体值，本词法分析不会制表保留数值，即丢弃无关数值。
- * @todo:
+ * @desctipiton: 词法分析器。因为仅仅输出语法树，无需具体值，
+ *               本词法分析不会制表保留数值，即丢弃无关数值。
+ * @Attention: 
+ *          1. 调用接口函数void lexicallyAnalyse()，即会更新
+ *             外部定义的nToken与nnToken这两个结构体。
+ *          2. 调用接口函数前，必须执行
+ *             void initLexer(FILE *lex)，用于初始化词法分析器。
  *
 *********************************************************************************/
-#line 11 "Lexical.l"
-int row ,col;
+#line 16 "Lexical.l"
 
-#define INT_ 1
-#define STR_ 2
-#define RETURN_ 3
-#define MAIN_ 4
-#define IF_ 5
-#define ELSE_ 6
-#define WHILE_ 7
-#define PRINT_ 8
-#define ASSIGNOP_ 9
-#define GT_ 10
-#define GE_ 11
-#define LT_ 12
-#define LE_ 13
-#define EQ_ 14
-#define NE_ 15
-#define PLUS_ 16
-#define SUB_ 17
-#define MUL_ 18
-#define DIV_ 19
-#define COMMA_ 20
-#define SEM_ 21
-#define LP_ 22
-#define RP_ 23
-#define LC_ 24
-#define RC_ 25
-#define NUMBER_ 26
-#define ID_ 27
-#define STRING_ 28
+#include "../include/main.h"
+
+int row ,col;
 
 static int lastLeng = 0;
 
-#line 530 "Lexical.c"
+#line 514 "lexical.c"
 /* 关键字定义 */
 /* 关键字定义结束 */
 /* 运算符定义 */
@@ -542,7 +526,7 @@ static int lastLeng = 0;
 /* 注释定义结束 */
 /* Start conditions定义 */
 /* Start conditions定义结束 */
-#line 545 "Lexical.c"
+#line 529 "lexical.c"
 
 #define INITIAL 0
 
@@ -759,9 +743,9 @@ YY_DECL
 		}
 
 	{
-#line 101 "Lexical.l"
+#line 82 "Lexical.l"
 
-#line 764 "Lexical.c"
+#line 748 "lexical.c"
 
 	while ( /*CONSTCOND*/1 )		/* loops until end-of-file is reached */
 		{
@@ -788,13 +772,13 @@ yy_match:
 			while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 				{
 				yy_current_state = (int) yy_def[yy_current_state];
-				if ( yy_current_state >= 67 )
+				if ( yy_current_state >= 74 )
 					yy_c = yy_meta[yy_c];
 				}
 			yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
 			++yy_cp;
 			}
-		while ( yy_base[yy_current_state] != 78 );
+		while ( yy_base[yy_current_state] != 88 );
 
 yy_find_action:
 		yy_act = yy_accept[yy_current_state];
@@ -820,18 +804,18 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 102 "Lexical.l"
+#line 83 "Lexical.l"
 lastLeng += 1;
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 103 "Lexical.l"
+#line 84 "Lexical.l"
 //吃掉
 	YY_BREAK
 case 3:
 /* rule 3 can match eol */
 YY_RULE_SETUP
-#line 104 "Lexical.l"
+#line 85 "Lexical.l"
 {
                                 row++;
                                 col = 1;
@@ -841,7 +825,7 @@ YY_RULE_SETUP
 case 4:
 /* rule 4 can match eol */
 YY_RULE_SETUP
-#line 109 "Lexical.l"
+#line 90 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -850,241 +834,259 @@ YY_RULE_SETUP
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 114 "Lexical.l"
+#line 95 "Lexical.l"
+{
+                                col += lastLeng;
+                                lastLeng = yyleng;
+                                return SCAN_;
+                            }
+	YY_BREAK
+case 6:
+YY_RULE_SETUP
+#line 100 "Lexical.l"
+{
+                                col += lastLeng;
+                                lastLeng = yyleng;
+                                return VOID_;
+                            }
+	YY_BREAK
+case 7:
+YY_RULE_SETUP
+#line 105 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return INT_;
                             }
 	YY_BREAK
-case 6:
+case 8:
 YY_RULE_SETUP
-#line 119 "Lexical.l"
+#line 110 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return STR_;
                             }
 	YY_BREAK
-case 7:
+case 9:
 YY_RULE_SETUP
-#line 124 "Lexical.l"
+#line 115 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return RETURN_;
                             }
 	YY_BREAK
-case 8:
+case 10:
 YY_RULE_SETUP
-#line 129 "Lexical.l"
+#line 120 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return MAIN_;
                             }
 	YY_BREAK
-case 9:
+case 11:
 YY_RULE_SETUP
-#line 134 "Lexical.l"
+#line 125 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return IF_;
                             }
 	YY_BREAK
-case 10:
+case 12:
 YY_RULE_SETUP
-#line 139 "Lexical.l"
+#line 130 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return ELSE_;
                             }
 	YY_BREAK
-case 11:
+case 13:
 YY_RULE_SETUP
-#line 144 "Lexical.l"
+#line 135 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return WHILE_;
                             }
 	YY_BREAK
-case 12:
+case 14:
 YY_RULE_SETUP
-#line 149 "Lexical.l"
+#line 140 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return PRINT_;
                             }
 	YY_BREAK
-case 13:
+case 15:
 YY_RULE_SETUP
-#line 154 "Lexical.l"
+#line 145 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return ASSIGNOP_;
                             }
 	YY_BREAK
-case 14:
+case 16:
 YY_RULE_SETUP
-#line 159 "Lexical.l"
+#line 150 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return GT_;
                             }
 	YY_BREAK
-case 15:
+case 17:
 YY_RULE_SETUP
-#line 164 "Lexical.l"
+#line 155 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return GE_;
                             }
 	YY_BREAK
-case 16:
+case 18:
 YY_RULE_SETUP
-#line 169 "Lexical.l"
+#line 160 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return LT_;
                             }
 	YY_BREAK
-case 17:
+case 19:
 YY_RULE_SETUP
-#line 174 "Lexical.l"
+#line 165 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return LE_;
                             }
 	YY_BREAK
-case 18:
+case 20:
 YY_RULE_SETUP
-#line 179 "Lexical.l"
+#line 170 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return EQ_;
                             }
 	YY_BREAK
-case 19:
+case 21:
 YY_RULE_SETUP
-#line 184 "Lexical.l"
+#line 175 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return NE_;
                             }
 	YY_BREAK
-case 20:
+case 22:
 YY_RULE_SETUP
-#line 189 "Lexical.l"
+#line 180 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return PLUS_;
                             }
 	YY_BREAK
-case 21:
+case 23:
 YY_RULE_SETUP
-#line 194 "Lexical.l"
+#line 185 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return SUB_;
                             }
 	YY_BREAK
-case 22:
+case 24:
 YY_RULE_SETUP
-#line 199 "Lexical.l"
+#line 190 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return MUL_;
                             }
 	YY_BREAK
-case 23:
+case 25:
 YY_RULE_SETUP
-#line 204 "Lexical.l"
+#line 195 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return DIV_;
                             }
 	YY_BREAK
-case 24:
+case 26:
 YY_RULE_SETUP
-#line 209 "Lexical.l"
+#line 200 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return COMMA_;
                             }
 	YY_BREAK
-case 25:
+case 27:
 YY_RULE_SETUP
-#line 214 "Lexical.l"
+#line 205 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return SEM_;
                             }
 	YY_BREAK
-case 26:
+case 28:
 YY_RULE_SETUP
-#line 219 "Lexical.l"
+#line 210 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return LP_;
                             }
 	YY_BREAK
-case 27:
+case 29:
 YY_RULE_SETUP
-#line 224 "Lexical.l"
+#line 215 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return RP_;
                             }
 	YY_BREAK
-case 28:
+case 30:
 YY_RULE_SETUP
-#line 229 "Lexical.l"
+#line 220 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return LC_;
                             }
 	YY_BREAK
-case 29:
+case 31:
 YY_RULE_SETUP
-#line 234 "Lexical.l"
+#line 225 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return RC_;
                             }
 	YY_BREAK
-case 30:
+case 32:
 YY_RULE_SETUP
-#line 239 "Lexical.l"
+#line 230 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return NUMBER_;
                             }
 	YY_BREAK
-case 31:
+case 33:
 YY_RULE_SETUP
-#line 244 "Lexical.l"
+#line 235 "Lexical.l"
 {
                                 col += lastLeng;
                                 lastLeng = yyleng;
@@ -1092,17 +1094,17 @@ YY_RULE_SETUP
                             }
 	YY_BREAK
 case YY_STATE_EOF(INITIAL):
-#line 249 "Lexical.l"
+#line 240 "Lexical.l"
 {
                                 return EOF;
                             }
 	YY_BREAK
-case 32:
+case 34:
 YY_RULE_SETUP
-#line 252 "Lexical.l"
+#line 243 "Lexical.l"
 ECHO;
 	YY_BREAK
-#line 1105 "Lexical.c"
+#line 1107 "lexical.c"
 
 	case YY_END_OF_BUFFER:
 		{
@@ -1397,7 +1399,7 @@ static int yy_get_next_buffer (void)
 		while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 			{
 			yy_current_state = (int) yy_def[yy_current_state];
-			if ( yy_current_state >= 67 )
+			if ( yy_current_state >= 74 )
 				yy_c = yy_meta[yy_c];
 			}
 		yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
@@ -1425,11 +1427,11 @@ static int yy_get_next_buffer (void)
 	while ( yy_chk[yy_base[yy_current_state] + yy_c] != yy_current_state )
 		{
 		yy_current_state = (int) yy_def[yy_current_state];
-		if ( yy_current_state >= 67 )
+		if ( yy_current_state >= 74 )
 			yy_c = yy_meta[yy_c];
 		}
 	yy_current_state = yy_nxt[yy_base[yy_current_state] + yy_c];
-	yy_is_jam = (yy_current_state == 66);
+	yy_is_jam = (yy_current_state == 73);
 
 		return yy_is_jam ? 0 : yy_current_state;
 }
@@ -2105,14 +2107,22 @@ void yyfree (void * ptr )
 
 #define YYTABLES_NAME "yytables"
 
-#line 252 "Lexical.l"
+#line 243 "Lexical.l"
 
 void initLexer(FILE *lex){
     yyin = lex;
     row = 1;
-	col = 1;
+    col = 1;
+    nnToken.code = yylex();
+    nnToken.row = row;
+    nnToken.col = col;
+    nnToken.value = (char *)calloc(strlen(yytext), sizeof(char));
 }
-int lexicallyAnalyse(){
-    return yylex();
+void lexicallyAnalyse(){
+    nToken = nnToken;
+    nnToken.code = yylex();
+    nnToken.row = row;
+    nnToken.col = col;
+    nnToken.value = (char *)calloc(strlen(yytext), sizeof(char));
 }
 

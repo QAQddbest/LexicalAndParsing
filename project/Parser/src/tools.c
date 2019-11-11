@@ -16,3 +16,6 @@ void logcat(char *s) {
     time_t t = time(NULL);
     printf("%ld : %s\n", t - START_TIME, s);
 }
+void throwError(char *place, char *message){
+    printf("%d:%d:%d %s", place, nToken.row, nToken.col, message);
+}

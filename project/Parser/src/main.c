@@ -5,9 +5,9 @@
  * @description: 主函数。用户交互、工程入口与总安排者。
  */
 #include "../include/main.h"
-
-extern int row, col;
-extern char *yytext;
+#ifdef LOCAL
+#include "tools.h"
+#endif // LOCAL
 
 int main(int argc, char *argv[]) {
     /*
@@ -45,14 +45,10 @@ int main(int argc, char *argv[]) {
 #ifdef LOCAL
             logcat("开始语法分析");
 #endif // LOCAL
-            initLexer(in);
-            int temp = lexicallyAnalyse();
-            printf("temp = %d\n",temp);
-            while(temp != EOF) {
-                printf("row = %3d, col = %3d, 种别码 = %3d, 值 = '%s'\n",
-                       row, col, temp, yytext);
-                temp = lexicallyAnalyse();
-            }
+
+#ifdef LOCAL
+            logcat("语法分析结束");
+#endif // LOCAL
             fclose(in);
             argc--;
             argv++;

@@ -14,5 +14,6 @@
 long START_TIME;
 
 void logcat(char *);
+void throwError(char *, char *);
 
 #endif // TOOLS_H

@@ -4,6 +4,17 @@
  * @license: MIT
  * @description: 词法分析所需的全部主函数。
  */
+#include "../include/parser.h"
+bool analyseProgram(){
+    /*
+     * @author: 黄粤升
+     * @para: None
+     * @return: bool
+     *          true    成功识别IntstrList
+     *          false   不符合IntstrList
+     */
+
+}
 
 bool analyseIntstrList() {
     /*

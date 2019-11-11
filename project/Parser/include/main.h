@@ -11,12 +11,4 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef LOCAL
-#include <time.h>
-#include "../tools.h"
-#endif // LOCAL
-
-void initLexer(FILE *);
-int lexicallyAnalysze(); //词法分析器接口
-
 #endif // MAIN_H

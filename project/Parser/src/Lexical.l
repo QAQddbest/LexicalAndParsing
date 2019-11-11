@@ -1,43 +1,22 @@
 /*********************************************************************************
  * @author: 丁志鹏(OliverDD)
  * @email: oliverdd@std.uestc.edu.cn
- * @desctipiton: 词法分析器。因为仅仅输出语法树，无需具体值，本词法分析不会制表保留数值，即丢弃无关数值。
- * @todo:
+ * @desctipiton: 词法分析器。因为仅仅输出语法树，无需具体值，
+ *               本词法分析不会制表保留数值，即丢弃无关数值。
+ * @Attention: 
+ *          1. 调用接口函数void lexicallyAnalyse()，即会更新
+ *             外部定义的nToken与nnToken这两个结构体。
+ *          2. 调用接口函数前，必须执行
+ *             void initLexer(FILE *lex)，用于初始化词法分析器。
  *
 *********************************************************************************/
 
 
 %{
-int row ,col;
 
-#define INT_ 1
-#define STR_ 2
-#define RETURN_ 3
-#define MAIN_ 4
-#define IF_ 5
-#define ELSE_ 6
-#define WHILE_ 7
-#define PRINT_ 8
-#define ASSIGNOP_ 9
-#define GT_ 10
-#define GE_ 11
-#define LT_ 12
-#define LE_ 13
-#define EQ_ 14
-#define NE_ 15
-#define PLUS_ 16
-#define SUB_ 17
-#define MUL_ 18
-#define DIV_ 19
-#define COMMA_ 20
-#define SEM_ 21
-#define LP_ 22
-#define RP_ 23
-#define LC_ 24
-#define RC_ 25
-#define NUMBER_ 26
-#define ID_ 27
-#define STRING_ 28
+#include "../include/main.h"
+
+int row ,col;
 
 static int lastLeng = 0;
 
@@ -45,6 +24,7 @@ static int lastLeng = 0;
 
 
 /* 关键字定义 */
+VOID                        void
 INT                         int
 STR                         str
 RETURN                      return
@@ -53,6 +33,7 @@ IF                          if
 ELSE                        else
 WHILE                       while
 PRINT                       print
+SCAN                        scan
 /* 关键字定义结束 */
 
 /* 运算符定义 */
@@ -110,6 +91,16 @@ COMMENT                     \/\/.*
                                 col += lastLeng;
                                 lastLeng = yyleng;
                                 return STRING_;
+                            }
+{SCAN}                      {
+                                col += lastLeng;
+                                lastLeng = yyleng;
+                                return SCAN_;
+                            }
+{VOID}                      {
+                                col += lastLeng;
+                                lastLeng = yyleng;
+                                return VOID_;
                             }
 {INT}                       {
                                 col += lastLeng;
@@ -253,8 +244,16 @@ COMMENT                     \/\/.*
 void initLexer(FILE *lex){
     yyin = lex;
     row = 1;
-	col = 1;
+    col = 1;
+    nnToken.code = yylex();
+    nnToken.row = row;
+    nnToken.col = col;
+    nnToken.value = (char *)calloc(strlen(yytext), sizeof(char));
 }
-int lexicallyAnalyse(){
-    return yylex();
+void lexicallyAnalyse(){
+    nToken = nnToken;
+    nnToken.code = yylex();
+    nnToken.row = row;
+    nnToken.col = col;
+    nnToken.value = (char *)calloc(strlen(yytext), sizeof(char));
 }
