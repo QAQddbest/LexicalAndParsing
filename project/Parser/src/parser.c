@@ -203,7 +203,7 @@ static bool analyseDeclarator(){
             throwError("declarator","匹配parameter_list失败");
             return false;
         }
-        if(RB_ != nToken.code) {
+        if(RP_ != nToken.code) {
             throwError("declarator", "格式ID '(' expr_list ')'丢失右括号");
             return false;
         }
@@ -295,7 +295,6 @@ static bool analyseParameter() {
     *          false   不符合Parameter
     */
     if(analyseType() == true) {
-        lexicallyAnalyse();
         if(nToken.code == ID_) {
             lexicallyAnalyse();
             return true;
@@ -321,7 +320,9 @@ static bool analyseType() {
     if(nToken.code == INT_ || nToken.code == STR_ || nToken.code == VOID_) {
         lexicallyAnalyse();
         return true;
-    } else {
+    } else if(ID_ == nToken.code){
+        return true;
+    }else{
         // error()
         throwError("type","结构错误");
         return false;
@@ -662,7 +663,7 @@ static bool analysePrimaryExpr() {
         lexicallyAnalyse();
         if(LP_ == nToken.code) { ///检测到左括号
             lexicallyAnalyse();
-            if(RB_ == nToken.code) { ////若为ID '(' ')'，直接返回true
+            if(RP_ == nToken.code) { ////若为ID '(' ')'，直接返回true
                 lexicallyAnalyse();
                 return true;
             }
@@ -670,7 +671,7 @@ static bool analysePrimaryExpr() {
                 throwError("primary_expr", "格式ID '(' expr_list ')'错误");
                 return false;
             }
-            if(RB_ != nToken.code) {
+            if(RP_ != nToken.code) { ///检测到右括号
                 throwError("primary_expr", "格式ID '(' expr_list ')'丢失右括号");
                 return false;
             }
@@ -742,7 +743,6 @@ static bool analyseExprList() {
     *          false   不符合ExprList
     */
     if(analyseExpr() == true) {
-        lexicallyAnalyse();
         while(nToken.code == COMMA_) { // ',' COMMA_
             lexicallyAnalyse();
             if(analyseExpr() == false) {
