@@ -34,5 +34,6 @@ static bool analyseStatement();
 static bool analyseStatementList();
 static bool analyseExprStatement();
 static bool analyseExpr();
+static bool analyseCMP();
 
 #endif // PARSER_H

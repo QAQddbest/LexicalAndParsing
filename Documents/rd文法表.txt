@@ -83,6 +83,14 @@ expr
 cmp_expr
     : add_expr { CMP add_expr }
     ;
+	
+CMP
+	: >=
+	| <=
+	| ==
+	| >
+	| <
+	;
 
 add_expr
     : mul_expr {  '+' mul_expr | '-' mul_expr }

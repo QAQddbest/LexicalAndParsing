@@ -499,7 +499,6 @@ static bool analyseStatementList() {
      */
     if(analyseStatement() == true) {
         while(nToken.code != RC_) { //'}'
-            lexicallyAnalyse();
             if(analyseStatement() != true) {
                 throwError("statement_list", "分析statement时出错");
                 return false;
@@ -562,11 +561,33 @@ static bool analyseCmpExpr() {
      *          true    成功识别
      *          false   不符合
      */
-    if(true != analyseExpr()) {
+    if(true != analyseAddExpr()) {
         throwError("cmp_expr", "分析Expr时出错");
         return false;
     }
-    while(true == analyseExpr()) {} //循环判断
+    while(true == analyseCMP()) {
+        if(true != analyseAddExpr()){
+            throwError("cmp_expr", "无法分析add_expr");
+            return false;
+        }
+    }
+    return true;
+}
+
+static bool analyseCMP(){
+    if(LE_ == nToken.code){
+        lexicallyAnalyse();
+    }else if(GE_ == nToken.code){
+        lexicallyAnalyse();
+    }else if(EQ_ == nToken.code){
+        lexicallyAnalyse();
+    }else if(GT_ == nToken.code){
+        lexicallyAnalyse();
+    }else if(LT_ == nToken.code){
+        lexicallyAnalyse();
+    }else{
+        return false;
+    }
     return true;
 }
 
