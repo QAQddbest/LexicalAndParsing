@@ -46,6 +46,14 @@ typedef struct{
     char *value;
 }Nexttoken;
 
+#ifdef LOCAL
+
+#include <sys/time.h>
+
+struct timeval tv;
+
+#endif // LOCAL
+
 Nexttoken nToken, nnToken;
 
 #endif // PROJECT_H

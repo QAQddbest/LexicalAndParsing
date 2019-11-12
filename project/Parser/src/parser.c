@@ -16,7 +16,7 @@ void parsingAnalyse(FILE *in) {
     if(false == analyseProgram()){
         throwError("语法分析","语法分析时出错");
     }else{
-        printf("执行完毕");
+        printf("不构建语法树的语法分析完毕\n");
     }
 }
 
@@ -51,7 +51,7 @@ static bool analyseExternalDeclaration() {
      *          false   不符合ExternalDeclaration
      */
     if(analyseType() == true) {
-#ifdef LOCAL
+#ifdef LOCALL
         printf("external_declaration:%d:%d 正在分析%s ( %d )\n",nToken.row, nToken.col, nToken.value, nToken.code);
 #endif // LOCAL
         if(analyseDeclarator() == true) {

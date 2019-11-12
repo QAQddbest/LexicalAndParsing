@@ -17,6 +17,25 @@ int func1(int fir, int sec)
 	int a = 10;
 	while(a > 0)
 	{
+		if(n == 1)
+			return 1;
+		else
+		{
+			int r = n* fn(n-1);
+			print r;
+			while(i < 10)
+			{
+				int j = 1;
+				while(j < 10)
+				{
+					print "\t" + i*j;
+					j = j + 1;
+				}
+				print "\n";
+				i = i +1;
+			}
+			return r;
+		}
 		str k = "\t" + a + "\n" ;
 		a = a -1;
 	}

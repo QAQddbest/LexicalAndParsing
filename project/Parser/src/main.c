@@ -22,7 +22,8 @@ int main(int argc, char *argv[]) {
      *          1    程序遇到错误并退出
      */
 #ifdef LOCAL
-    START_TIME = time(NULL);
+    gettimeofday(&tv, NULL);
+    START_TIME = tv.tv_sec*1000000 + tv.tv_usec;
     logcat("开始运行程序");
 #endif // LOCAL
     FILE *in;

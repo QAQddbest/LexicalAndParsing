@@ -273,6 +273,6 @@ void lexicallyAnalyse(){
 		memcpy(nnToken.value, yytext, strlen(yytext));
     }
 #ifdef LOCAL
-	printf("当前 '%6s' (%d) %d:%d\n", nToken.value, nToken.code, nToken.row, nToken.col);
+	printf(" '%6s' (%2d) %2d:%2d\n", nToken.value, nToken.code, nToken.row, nToken.col);
 #endif //LOCAL
 }

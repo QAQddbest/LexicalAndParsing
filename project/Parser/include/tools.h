@@ -8,9 +8,9 @@
 #define TOOLS_H
 
 #include "project.h"
-#include <time.h>
-
+#ifdef LOCAL
 void logcat(char *);
+#endif // LOCAL
 void throwError(char *, char *);
 
 #endif // TOOLS_H
