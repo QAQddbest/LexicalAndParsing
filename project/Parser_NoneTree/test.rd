@@ -42,6 +42,8 @@ int func1(int fir, int sec)
 	//print "func1 done" + "\n" ;
 	return b;
 }
+
+
 void multable()
 {
 	int i = 1;
@@ -57,6 +59,7 @@ void multable()
 		i = i +1;
 	}
 }
+
 int fn(int n)
 {
 	if(n == 1)
