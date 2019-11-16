@@ -3,6 +3,8 @@
  * @date: 2019-11-10
  * @license: MIT
  * @description: 词法分析所需的全部主函数。每读取一个终结符，调用一次lexicallyAnalyse()
+ *               next变量存储了同级同类的节点
+ *               统一存入左子树，若剩余节点不为1,则建立空节点，再接上。便于后续输出
  */
 #include "../include/parser.h"
 #ifdef LOCAL
