@@ -1,6 +1,9 @@
 *.depend
 *.layout
 *.o
+*.cscope_file_list
 *.out
-./project/Parser/obj
-./project/Parser/bin
+./project/Parser_Tree/obj
+./project/Parser_Tree/bin
+./project/Parser_NoneTree/obj
+./project/Parser_NoneTree/bin

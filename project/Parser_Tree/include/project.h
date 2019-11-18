@@ -39,7 +39,8 @@
 #define SCAN_ 31
 #define PERCENT_ 32
 
-#define TAB_LENG
+#define VIRT_PATH -1
+#define TAB_LENG 4
 
 typedef struct{
     int row;            // 行

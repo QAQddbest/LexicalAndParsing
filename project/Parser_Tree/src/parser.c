@@ -30,7 +30,7 @@ Node *parsingAnalyse(FILE *in) {
         throwError("语法分析","语法分析时出错");
     return root;
 }
-
+/* 样例函数：仿照本函数实现剩余函数 */
 static Node *analyseProgram() {
     /*
     * @author: 丁志鹏
@@ -49,13 +49,14 @@ static Node *analyseProgram() {
     if(NULL != next) {                              // 判断了至少一个external_declaration
         root->left = next;                          // 加入program节点的左节点
         next = analyseExternalDeclaration();        // 再次判断是否存在
-        while(NULL != left){                        // 若仍成功
+        while(NULL != next){                        // 若仍成功
             temp->next = next;                      // 将该同类节点放入next
-            temp = temp->next;                      // temp前移
-            left = analyseExternalDeclaration();    // 再次判断是否存在
+            temp = temp->next;                      // temp后移
+            next = analyseExternalDeclaration();    // 再次判断是否存在
         }
     }else{                                          // 一个external_declaration都没有：抛出错误
         throwError("program","分析external_declaration时出错");
+        return NULL;
     }
     return root;
 }
