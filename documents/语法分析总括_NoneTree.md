@@ -19,7 +19,9 @@ typedef struct{
 1. `nToken`
 2. `nnToken`
 
-词法分析器提供
+词法分析器提供`lexicallyAnalyse()`函数，用于更新`nToken`与`nnToken`变量。
+
+
 
 
 ## 函数列表
@@ -34,9 +36,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### `bool analyseExternalDeclaration()`
 
@@ -46,9 +48,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### `bool analyseDeclOrStmt()`
 
@@ -58,9 +60,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### `bool analyseDeclaratorList()`
 
@@ -70,9 +72,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### `bool analyseIntstrList()`
 
@@ -82,9 +84,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### `bool analyseInitializer()`
 
@@ -94,9 +96,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### bool analyseDeclarator()
 
@@ -106,9 +108,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### `bool analyseParameterList()`
 
@@ -118,9 +120,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### `bool analyseParameter()`
 
@@ -130,9 +132,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### `bool analyseType()`
 
@@ -142,9 +144,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### `bool analyseStatemrnt()`
 
@@ -154,9 +156,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### bool analyseStatementList()
 
@@ -166,9 +168,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### `bool analyseExpressionStatement()`
 
@@ -178,9 +180,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### bool analyseExpr()
 
@@ -190,9 +192,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### `bool analyseCmpExpr()`
 
@@ -202,9 +204,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### bool analyseAddExpr()
 
@@ -214,9 +216,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### `bool analyseMulExpr()`
 
@@ -226,9 +228,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### `bool analysePrimaryExpr()`
 
@@ -238,9 +240,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### `bool analyseExprList()`
 
@@ -250,9 +252,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
+2. 识别失败 返回false
 
 #### bool analyseIdList()
 
@@ -262,11 +264,9 @@ typedef struct{
 
 ##### 返回参数
 
-1.识别成功 返回true
+1. 识别成功 返回true
 
-2.识别失败 返回false
-
-
+2. 识别失败 返回false
 
 ### `void throwError(char *place, char *message)`
 
