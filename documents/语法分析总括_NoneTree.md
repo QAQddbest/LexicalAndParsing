@@ -19,11 +19,6 @@ typedef struct{
 1. `nToken`
 2. `nnToken`
 
-词法分析器提供`lexicallyAnalyse()`函数，用于更新`nToken`与`nnToken`变量。
-
-
-
-
 ## 函数列表
 
 ### 非终结符分析函数
