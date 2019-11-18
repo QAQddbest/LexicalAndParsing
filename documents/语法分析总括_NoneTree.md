@@ -1,26 +1,32 @@
-# 语法分析总括
+# 语法分析总括(不构建语法树)
 
-## 参数列表
+## 变量与结构声明
 
+为了存储富含信息的下条Tokens，定义结构
+
+```c
+typedef struct{
+	int row;			// 行数
+	int col;			// 列数
+	int code;			// 该Token的种别码
+	char *value;		// 该Token的属性值
+}Nexttoken;
+
+```
+
+并实例化该结构，为两个变量
+
+1. `nToken`
+2. `nnToken`
+
+词法分析器提供
 
 
 ## 函数列表
 
-### 指定函数
+### 非终结符分析函数
 
-#### bool analyseProgram()
-
-##### 接受参数
-
-无
-
-##### 返回参数
-
-1.识别成功 返回true
-
-2.识别失败 返回false
-
-#### bool analyseExternalDeclaration()
+#### `bool analyseProgram()`
 
 ##### 接受参数
 
@@ -32,7 +38,7 @@
 
 2.识别失败 返回false
 
-#### bool analyseDeclOrStmt()
+#### `bool analyseExternalDeclaration()`
 
 ##### 接受参数
 
@@ -44,7 +50,7 @@
 
 2.识别失败 返回false
 
-#### bool analyseDeclaratorList()
+#### `bool analyseDeclOrStmt()`
 
 ##### 接受参数
 
@@ -56,7 +62,7 @@
 
 2.识别失败 返回false
 
-#### bool analyseIntstrList()
+#### `bool analyseDeclaratorList()`
 
 ##### 接受参数
 
@@ -68,7 +74,19 @@
 
 2.识别失败 返回false
 
-#### bool analyseInitializer()
+#### `bool analyseIntstrList()`
+
+##### 接受参数
+
+无
+
+##### 返回参数
+
+1.识别成功 返回true
+
+2.识别失败 返回false
+
+#### `bool analyseInitializer()`
 
 ##### 接受参数
 
@@ -92,7 +110,7 @@
 
 2.识别失败 返回false
 
-#### bool analyseParameterList()
+#### `bool analyseParameterList()`
 
 ##### 接受参数
 
@@ -104,7 +122,7 @@
 
 2.识别失败 返回false
 
-#### bool analyseParameter()
+#### `bool analyseParameter()`
 
 ##### 接受参数
 
@@ -116,7 +134,7 @@
 
 2.识别失败 返回false
 
-#### bool analyseType()
+#### `bool analyseType()`
 
 ##### 接受参数
 
@@ -128,7 +146,7 @@
 
 2.识别失败 返回false
 
-#### bool analyseStatemrnt()
+#### `bool analyseStatemrnt()`
 
 ##### 接受参数
 
@@ -152,7 +170,7 @@
 
 2.识别失败 返回false
 
-#### bool analyseExpressionStatement()
+#### `bool analyseExpressionStatement()`
 
 ##### 接受参数
 
@@ -176,7 +194,7 @@
 
 2.识别失败 返回false
 
-#### bool analyseCmpExpr()
+#### `bool analyseCmpExpr()`
 
 ##### 接受参数
 
@@ -200,7 +218,7 @@
 
 2.识别失败 返回false
 
-#### bool analyseMulExpr()
+#### `bool analyseMulExpr()`
 
 ##### 接受参数
 
@@ -212,7 +230,7 @@
 
 2.识别失败 返回false
 
-#### bool analysePrimaryExpr()
+#### `bool analysePrimaryExpr()`
 
 ##### 接受参数
 
@@ -224,7 +242,7 @@
 
 2.识别失败 返回false
 
-#### bool analyseExprList()
+#### `bool analyseExprList()`
 
 ##### 接受参数
 
@@ -254,17 +272,13 @@
 
 #### 接受参数
 
-1. char *s
+1. char *place
 
-    错误具体信息
+    出错地址，由程序提供。即语法分析出错语法名称。
 
-2. int row
+2. char *message
 
-    出错行数
-
-3. int col
-
-    出错列数
+    出错信息，由程序
 
 #### 返回参数
 
@@ -292,7 +306,7 @@
 
 #### 接受参数
 
-无
+指向待分析rd源文件的文件指针
 
 #### 返回参数
 
@@ -301,4 +315,7 @@
 #### 函数说明
 
 用于初始化词法分析器。（必须在 `lexicallyAnalyse()` 前调用）
+
+将对`yyin`赋值
+并初始化`nToken`，预加载一次
 
