@@ -578,37 +578,80 @@ static Node *analyseCmpExpr() {
      * @author: 丁志鹏
      * @para: None
      * @return: bool
-     *          true    成功识别
-     *          false   不符合
+     *          Node *  成功识别并返回节点
+     *          NULL    识别失败
      */
-    if(true != analyseAddExpr()) {
+	 // 声明变量
+    Node *next, *temp, *left, *right;
+    Node *root = (Node *)calloc(1, sizeof(Node));
+    // 初始化变量
+    memcpy(root->name, "cmp_expr", sizeof("cmp_expr"));
+	 left = analyseAddExpr();
+    if(NULL == left) {
         throwError("cmp_expr", "分析Expr时出错");
-        return false;
+        return NULL;
     }
-    while(true == analyseCMP()) {
-        if(true != analyseAddExpr()){
+ 	 temp = root;
+	 root->left = left;
+	 right = analyseCMP();
+    while(NULL != right) {
+		  temp->right = right;
+		  temp = temp->right;
+		  left = analyseAddExpr();
+        if(NULL == left){
             throwError("cmp_expr", "无法分析add_expr");
-            return false;
+            return NULL;
         }
+		  temp->left = left;
     }
-    return true;
+	 root->path = 0;
+    return root;
 }
 
 static Node *analyseCMP(){
+    /*
+     * @author: 丁志鹏
+     * @para: None
+     * @return: bool
+     *          Node *  成功识别并返回节点
+     *          NULL    识别失败
+     */
+	 Node *root = (Node *)calloc(1, sizeof(Node));
     if(LE_ == nToken.code){
+		  root->value = (char *)calloc(3, sizeof(char));
+		  memcpy(root->name, "CMP\n", sizeof("CMP\n"));
+		  memcpy(root->value, "<=\n", sizeof("<=\n"));
+		  root->path = 1;
         lexicallyAnalyse();
     }else if(GE_ == nToken.code){
+		  root->value = (char *)calloc(3, sizeof(char));
+		  memcpy(root->name, "CMP\n", sizeof("CMP\n"));
+		  memcpy(root->value, ">=\n", sizeof(">=\n"));
+		  root->path = 0;
         lexicallyAnalyse();
     }else if(EQ_ == nToken.code){
+		  root->value = (char *)calloc(3, sizeof(char));
+		  memcpy(root->name, "CMP\n", sizeof("CMP\n"));
+		  memcpy(root->value, "==\n", sizeof("==\n"));
+		  root->path = 2;
         lexicallyAnalyse();
     }else if(GT_ == nToken.code){
+		  root->value = (char *)calloc(3, sizeof(char));
+		  memcpy(root->name, "CMP\n", sizeof("CMP\n"));
+		  memcpy(root->value, ">\n", sizeof(">\n"));
+		  root->path = 3;
         lexicallyAnalyse();
     }else if(LT_ == nToken.code){
+		  root->value = (char *)calloc(3, sizeof(char));
+		  memcpy(root->name, "CMP\n", sizeof("CMP\n"));
+		  memcpy(root->value, "<\n", sizeof("<\n"));
+		  root->path = 4;
         lexicallyAnalyse();
     }else{
-        return false;
+		  throwError("CMP", "分析比较符号时出错");
+        return NULL;
     }
-    return true;
+    return root;
 }
 
 static Node *analyseAddExpr() {
