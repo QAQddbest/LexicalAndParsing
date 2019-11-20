@@ -208,54 +208,27 @@ static bool analyseDeclarator(){
             return false;
         }
         lexicallyAnalyse();
-    }else if(LC_ == nToken.code){// {
-        lexicallyAnalyse();
-        if(RC_ == nToken.code){// 若直接发现[]，直接返回true
-            lexicallyAnalyse();
-            return true;
-        }
-        if(true != analyseExpr()){
-            throwError("declarator","匹配expr失败");
-            return false;
-        }
-        if(RC_ != nToken.code) {
-            throwError("declarator", "格式ID '[' expr ']'丢失右括号");
-            return false;
-        }
-        lexicallyAnalyse();
     }else if(LB_ == nToken.code){// [
         lexicallyAnalyse();
-        if(RB_ == nToken.code){
+        if(RB_ == nToken.code){// ID '[' ']'
             lexicallyAnalyse();
-        }else if( true == analyseExpr()){
-            if(RB_ != nToken.code){
-                throwError("declarator", "右中括号不匹配");
+        }else if(true != analyseExpr()){// 非ID '[' expr ']'
+            throwError("declarator","匹配expr失败");
+            return false;
+        }else{// ID '[' expr ']'
+            if(RB_ != nToken.code) {
+                throwError("declarator", "格式ID '[' expr ']'丢失右括号");
                 return false;
             }
             lexicallyAnalyse();
-        }else{
-            throwError("declarator", "判断时无匹配选项");
-            return false;
         }
-        if(ASSIGNOP_ != nToken.code){
-            throwError("declarator", "等号不匹配");
-            return false;
+        // 判断是否有‘=’
+        if(ASSIGNOP_ == nToken.code){
+            lexicallyAnalyse();
+            while(true == analyseIntstList()){
+                
+            }
         }
-        lexicallyAnalyse();
-        if(LC_ != nToken.code){
-            throwError("declarator", "左大括号不匹配");
-            return false;
-        }
-        lexicallyAnalyse();
-        if(true != analyseIntstrList()){
-            throwError("declarator", "分析intstr_list时出错");
-            return false;
-        }
-        if(RC_ != nToken.code){
-            throwError("declarator", "右大括号不匹配");
-            return false;
-        }
-        lexicallyAnalyse();
     }
     return true;
 }
