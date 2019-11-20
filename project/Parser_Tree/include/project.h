@@ -42,21 +42,21 @@
 #define VIRT_PATH -1
 #define TAB_LENG 4
 
-typedef struct{
+typedef struct {
     int row;            // 行
     int col;            // 列
     int code;           // 种别码
     char *value;        // 本身的值
-}Nexttoken;
+} Nexttoken;
 
-typedef struct NODE{
+typedef struct NODE {
     char name[20];      // 节点本身名字
     int path;           // 第几号路径
-    char value;         // 本身的值或者路径上的ID
+    char *value;         // 本身的值或者路径上的ID
     struct NODE *left;
     struct NODE *right;
     struct NODE *next;  // 同类值的链表指针
-}Node;
+} Node;
 
 #ifdef LOCAL
 

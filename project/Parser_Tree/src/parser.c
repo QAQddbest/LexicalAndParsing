@@ -26,8 +26,10 @@ Node *parsingAnalyse(FILE *in) {
     lexicallyAnalyse();
     // 开始语法分析
     Node *root = analyseProgram();
+
     if(NULL == root)
-        throwError("语法分析","语法分析时出错");
+        throwError("语法分析", "语法分析时出错");
+
     return root;
 }
 /* 样例函数：仿照本函数实现剩余函数 */
@@ -46,18 +48,21 @@ static Node *analyseProgram() {
     memcpy(root->name, "program", sizeof("program"));
     next = analyseExternalDeclaration();
     temp = next;
+
     if(NULL != next) {                              // 判断了至少一个external_declaration
         root->left = next;                          // 加入program节点的左节点
         next = analyseExternalDeclaration();        // 再次判断是否存在
-        while(NULL != next){                        // 若仍成功
+
+        while(NULL != next) {                       // 若仍成功
             temp->next = next;                      // 将该同类节点放入next
             temp = temp->next;                      // temp后移
             next = analyseExternalDeclaration();    // 再次判断是否存在
         }
-    }else{                                          // 一个external_declaration都没有：抛出错误
-        throwError("program","分析external_declaration时出错");
+    } else {                                         // 一个external_declaration都没有：抛出错误
+        throwError("program", "分析external_declaration时出错");
         return NULL;
     }
+
     return root;
 }
 
@@ -71,21 +76,22 @@ static Node *analyseExternalDeclaration() {
      */
     if(analyseType() == true) {
 #ifdef LOCALL
-        printf("external_declaration:%d:%d 正在分析%s ( %d )\n",nToken.row, nToken.col, nToken.value, nToken.code);
+        printf("external_declaration:%d:%d 正在分析%s ( %d )\n", nToken.row, nToken.col, nToken.value, nToken.code);
 #endif // LOCAL
+
         if(analyseDeclarator() == true) {
             if(analyseDeclOrStmt() == true) {
                 return true;
             } else {
-                throwError("external_declaration","分析decl_or_stmt时出错");
+                throwError("external_declaration", "分析decl_or_stmt时出错");
                 return false;
             }
         } else {
-            throwError("external_declaration","分析declarator时出错");
+            throwError("external_declaration", "分析declarator时出错");
             return false;
         }
     } else {
-        throwError("external_declaration","分析type时出错");
+        throwError("external_declaration", "分析type时出错");
         return false;
     }
 }
@@ -100,6 +106,7 @@ static Node *analyseDeclOrStmt() {
     */
     if(nToken.code == LC_) { // '{'
         lexicallyAnalyse();
+
         if(nToken.code == RC_) { // '}'
             lexicallyAnalyse();
             return true;
@@ -108,32 +115,33 @@ static Node *analyseDeclOrStmt() {
                 lexicallyAnalyse();
                 return true;
             } else {
-                throwError("decl_or_stmt","分析'}'时出错");
+                throwError("decl_or_stmt", "分析'}'时出错");
                 return false;
             }
         } else {
-            throwError("decl_or_stmt","结构错误");
+            throwError("decl_or_stmt", "结构错误");
             return false;
         }
     } else if(nToken.code == COMMA_) { //','
         lexicallyAnalyse();
+
         if(analyseDeclaratorList() == true) {
             if(nToken.code == SEM_) { //';'
                 lexicallyAnalyse();
                 return true;
             } else {
-                throwError("decl_or_stmt","分析';'时出错");
+                throwError("decl_or_stmt", "分析';'时出错");
                 return false;
             }
         } else {
-            throwError("decl_or_stmt","分析declarator_list时出错");
+            throwError("decl_or_stmt", "分析declarator_list时出错");
             return false;
         }
     } else if(nToken.code == SEM_) { // ';'
         lexicallyAnalyse();
         return true;
     } else {
-        throwError("decl_or_stmt","结构错误");
+        throwError("decl_or_stmt", "结构错误");
         return false;
     }
 }
@@ -149,14 +157,16 @@ static Node *analyseDeclaratorList() {
     if(analyseDeclarator() == true) {
         while(nToken.code == COMMA_) { //','
             lexicallyAnalyse();
+
             if(analyseDeclarator() == false) {
-                throwError("declarator_list","分析declarator时出错");
+                throwError("declarator_list", "分析declarator时出错");
                 return false;
             }
         }
+
         return true;
     } else {
-        throwError("declarator_list","分析declarator时出错");
+        throwError("declarator_list", "分析declarator时出错");
         return false;
     }
 }
@@ -172,13 +182,14 @@ static Node *analyseIntstrList() {
     if(analyseInitializer() == true) {
         while(nToken.code == COMMA_) { //','
             if(analyseInitializer() == false) {
-                throwError("declarator_list","分析initializer时出错");
+                throwError("declarator_list", "分析initializer时出错");
                 return false;
             }
         }
+
         return true;
     } else {
-        throwError("declarator_list","分析initializer时出错");
+        throwError("declarator_list", "分析initializer时出错");
         return false;
     }
 }
@@ -195,87 +206,108 @@ static Node *analyseInitializer() {
         lexicallyAnalyse();
         return true;
     } else {
-        throwError("initializer","分析NUMBER或STRING时出错");
+        throwError("initializer", "分析NUMBER或STRING时出错");
         return false;
     }
 }
 
-static Node *analyseDeclarator(){
-    if(ID_ != nToken.code){
-        throwError("declarator","匹配ID失败");
+static Node *analyseDeclarator() {
+    if(ID_ != nToken.code) {
+        throwError("declarator", "匹配ID失败");
         return false;
     }
+
     lexicallyAnalyse();
-    if(ASSIGNOP_ == nToken.code){// =
+
+    if(ASSIGNOP_ == nToken.code) { // =
         lexicallyAnalyse();
-        if(true != analyseExpr()){
-            throwError("declarator","匹配expr时失败");
+
+        if(true != analyseExpr()) {
+            throwError("declarator", "匹配expr时失败");
             return false;
         }
-    }else if(LP_ == nToken.code){// (
+    } else if(LP_ == nToken.code) { // (
         lexicallyAnalyse();
-        if(RP_ == nToken.code){// 若直接发现()，直接返回true
+
+        if(RP_ == nToken.code) { // 若直接发现()，直接返回true
             lexicallyAnalyse();
             return true;
         }
-        if(true != analyseParameterList()){
-            throwError("declarator","匹配parameter_list失败");
+
+        if(true != analyseParameterList()) {
+            throwError("declarator", "匹配parameter_list失败");
             return false;
         }
+
         if(RP_ != nToken.code) {
             throwError("declarator", "格式ID '(' expr_list ')'丢失右括号");
             return false;
         }
+
         lexicallyAnalyse();
-    }else if(LC_ == nToken.code){// {
+    } else if(LC_ == nToken.code) { // {
         lexicallyAnalyse();
-        if(RC_ == nToken.code){// 若直接发现[]，直接返回true
+
+        if(RC_ == nToken.code) { // 若直接发现[]，直接返回true
             lexicallyAnalyse();
             return true;
         }
-        if(true != analyseExpr()){
-            throwError("declarator","匹配expr失败");
+
+        if(true != analyseExpr()) {
+            throwError("declarator", "匹配expr失败");
             return false;
         }
+
         if(RC_ != nToken.code) {
             throwError("declarator", "格式ID '[' expr ']'丢失右括号");
             return false;
         }
+
         lexicallyAnalyse();
-    }else if(LB_ == nToken.code){// [
+    } else if(LB_ == nToken.code) { // [
         lexicallyAnalyse();
-        if(RB_ == nToken.code){
+
+        if(RB_ == nToken.code) {
             lexicallyAnalyse();
-        }else if( true == analyseExpr()){
-            if(RB_ != nToken.code){
+        } else if( true == analyseExpr()) {
+            if(RB_ != nToken.code) {
                 throwError("declarator", "右中括号不匹配");
                 return false;
             }
+
             lexicallyAnalyse();
-        }else{
+        } else {
             throwError("declarator", "判断时无匹配选项");
             return false;
         }
-        if(ASSIGNOP_ != nToken.code){
+
+        if(ASSIGNOP_ != nToken.code) {
             throwError("declarator", "等号不匹配");
             return false;
         }
+
         lexicallyAnalyse();
-        if(LC_ != nToken.code){
+
+        if(LC_ != nToken.code) {
             throwError("declarator", "左大括号不匹配");
             return false;
         }
+
         lexicallyAnalyse();
-        if(true != analyseIntstrList()){
+
+        if(true != analyseIntstrList()) {
             throwError("declarator", "分析intstr_list时出错");
             return false;
         }
-        if(RC_ != nToken.code){
+
+        if(RC_ != nToken.code) {
             throwError("declarator", "右大括号不匹配");
             return false;
         }
+
         lexicallyAnalyse();
     }
+
     return true;
 }
 
@@ -293,14 +325,16 @@ static Node *analyseParameterList() {
     if(analyseParameter() == true) {
         while(nToken.code == COMMA_) { // ',' COMMA_
             lexicallyAnalyse();
+
             if(analyseParameter() == false) {
-                throwError("parameter_list","分析','时出错");
+                throwError("parameter_list", "分析','时出错");
                 return false;
             }
         }
+
         return true;
     } else {
-        throwError("parameter_list","结构错误");
+        throwError("parameter_list", "结构错误");
         return false;
     }
 }
@@ -319,11 +353,11 @@ static Node *analyseParameter() {
             return true;
         } else {
             // error();
-            throwError("parameter","分析ID时出错");
+            throwError("parameter", "分析ID时出错");
             return false;
         }
     } else {
-        throwError("parameter","结构错误");
+        throwError("parameter", "结构错误");
         return false;
     }
 }
@@ -339,11 +373,11 @@ static Node *analyseType() {
     if(nToken.code == INT_ || nToken.code == STR_ || nToken.code == VOID_) {
         lexicallyAnalyse();
         return true;
-    } else if(ID_ == nToken.code){
+    } else if(ID_ == nToken.code) {
         return true;
-    }else{
+    } else {
         // error()
-        throwError("type","结构错误");
+        throwError("type", "结构错误");
         return false;
     }
 }
@@ -358,86 +392,95 @@ static Node *analyseStatement() {
     */
     if(nToken.code == LC_) { // '{' LC
         lexicallyAnalyse();
+
         if(analyseStatementList() == true) {
             if(nToken.code == RC_) { // '}' RC
                 lexicallyAnalyse();
                 return true;
             } else {
                 // error()
-                throwError("statement","分析'}'时出错");
+                throwError("statement", "分析'}'时出错");
                 return false;
             }
         } else {
-            throwError("statement","分析statement时出错");
+            throwError("statement", "分析statement时出错");
             return false;
         }
     } else if(nToken.code == IF_) {
         lexicallyAnalyse();
+
         if(nToken.code == LP_) { // '(' LP
             lexicallyAnalyse();
+
             if(analyseExpr() == true) {
                 if(nToken.code == RP_) { // ')' RB
                     lexicallyAnalyse();
+
                     if(analyseStatement() == true) {
                         if(nToken.code == ELSE_) {
                             lexicallyAnalyse();
+
                             if(analyseStatement() == true) {
                                 return true;
                             } else {
-                                throwError("statement","分析statement时出错");
+                                throwError("statement", "分析statement时出错");
                                 return false;
                             }
                         } else {
-                            throwError("statement","分析ELSE时出错");
+                            throwError("statement", "分析ELSE时出错");
                             return true; // statement 后面允许不接其他东西
                         }
                     } else {
-                        throwError("statement","分析statement时出错");
+                        throwError("statement", "分析statement时出错");
                         return false;
                     }
                 } else {
                     // error()
-                    throwError("statement","分析')'时出错");
+                    throwError("statement", "分析')'时出错");
                     return false;
                 }
             } else {
-                throwError("statement","分析expr时出错");
+                throwError("statement", "分析expr时出错");
                 return false;
             }
         } else {
             // error()
-            throwError("statement","分析'('时出错");
+            throwError("statement", "分析'('时出错");
             return false;
         }
     } else if(nToken.code == WHILE_) {
         lexicallyAnalyse();
+
         if(nToken.code == LP_) { // '('
             lexicallyAnalyse();
+
             if(analyseExpr() == true) {
                 if(nToken.code == RP_) { // ')'
                     lexicallyAnalyse();
+
                     if(analyseStatement() == true) {
                         return true;
                     } else {
-                        throwError("statement","分析statement时出错");
+                        throwError("statement", "分析statement时出错");
                         return false;
                     }
                 } else {
                     // error()
-                    throwError("statement","分析')'时出错");
+                    throwError("statement", "分析')'时出错");
                     return false;
                 }
             } else {
-                throwError("statement","分析expr时出错");
+                throwError("statement", "分析expr时出错");
                 return false;
             }
         } else {
             // error()
-            throwError("statement","分析'('时出错");
+            throwError("statement", "分析'('时出错");
             return false;
         }
     } else if(nToken.code == RETURN_) {
         lexicallyAnalyse();
+
         if(nToken.code == SEM_) { // ';'
             lexicallyAnalyse();
             return true;
@@ -447,15 +490,16 @@ static Node *analyseStatement() {
                 return true;
             } else {
                 // error()
-                throwError("statement","分析';'时出错");
+                throwError("statement", "分析';'时出错");
                 return false;
             }
         } else {
-            throwError("statement","分析expr时出错");
+            throwError("statement", "分析expr时出错");
             return false;
         }
     } else if(nToken.code == PRINT_) {
         lexicallyAnalyse();
+
         if(nToken.code == SEM_) { //';'
             lexicallyAnalyse();
             return true;
@@ -465,26 +509,27 @@ static Node *analyseStatement() {
                 return true;
             } else {
                 //    error()
-                throwError("statement","分析';'时出错");
+                throwError("statement", "分析';'时出错");
                 return false;
             }
         } else {
-            throwError("statement","分析expr_list时出错");
+            throwError("statement", "分析expr_list时出错");
             return false;
         }
     } else if(nToken.code == SCAN_) {
         lexicallyAnalyse();
+
         if(analyseIdList() == true) {
             if(nToken.code == SEM_) { //';'
                 lexicallyAnalyse();
                 return true;
             } else {
                 // error()
-                throwError("statement","分析';'时出错");
+                throwError("statement", "分析';'时出错");
                 return false;
             }
         } else {
-            throwError("statement","分析id_list时出错");
+            throwError("statement", "分析id_list时出错");
             return false;
         }
     } else if(analyseType() == true) {
@@ -494,17 +539,17 @@ static Node *analyseStatement() {
                 return true;
             } else {
                 // error()
-                throwError("statement","分析';'时出错");
+                throwError("statement", "分析';'时出错");
                 return false;
             }
         } else {
-            throwError("statement","分析declarator_list时出错");
+            throwError("statement", "分析declarator_list时出错");
             return false;
         }
     } else if(analyseExprStatement() == true) {
         return true;
     } else {
-        throwError("statement","结构错误");
+        throwError("statement", "结构错误");
         return false;
     }
 }
@@ -524,6 +569,7 @@ static Node *analyseStatementList() {
                 return false;
             }
         }
+
         return true;
     } else {
         throwError("statement_list", "结构错误");
@@ -581,34 +627,40 @@ static Node *analyseCmpExpr() {
      *          Node *  成功识别并返回节点
      *          NULL    识别失败
      */
-	 // 声明变量
+    // 声明变量
     Node *next, *temp, *left, *right;
     Node *root = (Node *)calloc(1, sizeof(Node));
     // 初始化变量
     memcpy(root->name, "cmp_expr", sizeof("cmp_expr"));
-	 left = analyseAddExpr();
+    left = analyseAddExpr();
+
     if(NULL == left) {
         throwError("cmp_expr", "分析Expr时出错");
         return NULL;
     }
- 	 temp = root;
-	 root->left = left;
-	 right = analyseCMP();
+
+    temp = root;
+    root->left = left;
+    right = analyseCMP();
+
     while(NULL != right) {
-		  temp->right = right;
-		  temp = temp->right;
-		  left = analyseAddExpr();
-        if(NULL == left){
+        temp->right = right;
+        temp = temp->right;
+        left = analyseAddExpr();
+
+        if(NULL == left) {
             throwError("cmp_expr", "无法分析add_expr");
             return NULL;
         }
-		  temp->left = left;
+
+        temp->left = left;
     }
-	 root->path = 0;
+
+    root->path = 0;
     return root;
 }
 
-static Node *analyseCMP(){
+static Node *analyseCMP() {
     /*
      * @author: 丁志鹏
      * @para: None
@@ -616,41 +668,42 @@ static Node *analyseCMP(){
      *          Node *  成功识别并返回节点
      *          NULL    识别失败
      */
-	 Node *root = (Node *)calloc(1, sizeof(Node));
-    if(LE_ == nToken.code){
-		  root->value = (char *)calloc(3, sizeof(char));
-		  memcpy(root->name, "CMP\n", sizeof("CMP\n"));
-		  memcpy(root->value, "<=\n", sizeof("<=\n"));
-		  root->path = 1;
+    Node *root = (Node *)calloc(1, sizeof(Node));
+    if(LE_ == nToken.code) {
+        root->value = (char *)calloc(3, sizeof(char));
+        memcpy(root->name, "CMP\n", sizeof("CMP\n"));
+        memcpy(root->value, "<=\n", sizeof("<=\n"));
+        root->path = 1;
         lexicallyAnalyse();
-    }else if(GE_ == nToken.code){
-		  root->value = (char *)calloc(3, sizeof(char));
-		  memcpy(root->name, "CMP\n", sizeof("CMP\n"));
-		  memcpy(root->value, ">=\n", sizeof(">=\n"));
-		  root->path = 0;
+    } else if(GE_ == nToken.code) {
+        root->value = (char *)calloc(3, sizeof(char));
+        memcpy(root->name, "CMP\n", sizeof("CMP\n"));
+        memcpy(root->value, ">=\n", sizeof(">=\n"));
+        root->path = 0;
         lexicallyAnalyse();
-    }else if(EQ_ == nToken.code){
-		  root->value = (char *)calloc(3, sizeof(char));
-		  memcpy(root->name, "CMP\n", sizeof("CMP\n"));
-		  memcpy(root->value, "==\n", sizeof("==\n"));
-		  root->path = 2;
+    } else if(EQ_ == nToken.code) {
+        root->value = (char *)calloc(3, sizeof(char));
+        memcpy(root->name, "CMP\n", sizeof("CMP\n"));
+        memcpy(root->value, "==\n", sizeof("==\n"));
+        root->path = 2;
         lexicallyAnalyse();
-    }else if(GT_ == nToken.code){
-		  root->value = (char *)calloc(3, sizeof(char));
-		  memcpy(root->name, "CMP\n", sizeof("CMP\n"));
-		  memcpy(root->value, ">\n", sizeof(">\n"));
-		  root->path = 3;
+    } else if(GT_ == nToken.code) {
+        root->value = (char *)calloc(3, sizeof(char));
+        memcpy(root->name, "CMP\n", sizeof("CMP\n"));
+        memcpy(root->value, ">\n", sizeof(">\n"));
+        root->path = 3;
         lexicallyAnalyse();
-    }else if(LT_ == nToken.code){
-		  root->value = (char *)calloc(3, sizeof(char));
-		  memcpy(root->name, "CMP\n", sizeof("CMP\n"));
-		  memcpy(root->value, "<\n", sizeof("<\n"));
-		  root->path = 4;
+    } else if(LT_ == nToken.code) {
+        root->value = (char *)calloc(3, sizeof(char));
+        memcpy(root->name, "CMP\n", sizeof("CMP\n"));
+        memcpy(root->value, "<\n", sizeof("<\n"));
+        root->path = 4;
         lexicallyAnalyse();
-    }else{
-		  throwError("CMP", "分析比较符号时出错");
+    } else {
+        throwError("CMP", "分析比较符号时出错");
         return NULL;
     }
+
     return root;
 }
 
@@ -659,21 +712,53 @@ static Node *analyseAddExpr() {
      * @author: 丁志鹏
      * @para: None
      * @return: bool
-     *          true    成功识别
-     *          false   不符合
+     *          Node *  成功识别并返回节点
+     *          NULL    识别失败
      */
-    if(true != analyseMulExpr()) {
+    Node *left, *right, *temp;
+    Node *root = (Node *)calloc(1, sizeof(Node));
+    mamcpy(root->name, "add_expr", sizeof("add_expr"));
+    left = analyseMulExpr();
+    if(NULL == left) {
         throwError("add_expr", "分析mul_expr时出错");
-        return false;
+        return NULL;
     }
+
+    root->left = left;
+    temp = root;
+
     while(SUB_ == nToken.code || PLUS_ == nToken.code) {
-        lexicallyAnalyse();
-        if(true != analyseMulExpr()) {
-            throwError("add_expr", "分析mul_expr时出错");
-            return false;
+        // 将运算符‘-’或‘+’放到右节点
+        right = (Node *)calloc(1, sizeof(Node));
+        right->value = (char *)calloc(2, sizeof(char));
+
+        if(SUB_ == nToken.code) {
+            memcpy(right->name, "SUB\n", sizeof("SUB\n"));
+            memcpy(right->value, "-\n", sizeof("-\n"));
+        } else {
+            memcpy(right->name, "PLUS\n", sizeof("PLUS\n"));
+            memcpy(right->value, "+\n", sizeof("+\n"));
         }
+
+        // 配置右节点完成，转载右节点
+        temp->right = right;
+        temp = temp->right;
+
+        lexicallyAnalyse();
+        // mul_expr
+        left = analyseMulExpr();
+
+        if(NULL == left) {
+            throwError("add_expr", "分析mul_expr时出错");
+            return NULL;
+        }
+
+        // 判断成功，转载节点
+        temp->left = left;
     }
-    return true;
+
+    root->path = 0;
+    return root;
 }
 
 static Node *analyseMulExpr() {
@@ -681,24 +766,65 @@ static Node *analyseMulExpr() {
      * @author: 丁志鹏
      * @para: None
      * @return: bool
-     *          true    成功识别
-     *          false   不符合
+     *          Node *  成功识别并返回节点
+     *          NULL    识别失败
      */
+    Node *root = (Node *)calloc(1, sizeof(Node));
+    memcpy(root->name, "mul_expr", sizeof("mul_expr"));
+    Node *left, *right, *temp;
+    if(SUB_ == nToken.code){
+        left = (Node *)calloc(1, sizeof(Node));
+        memcpy(right->name, "SUB\n", sizeof("SUB\n"));
+        memcpy(right->value, "-\n", sizeof("-\n"));
+        root->left = left;
+        lexicallyAnalyse();
+    }
+    temp = root->left;
     while(SUB_ == nToken.code) { //吃掉多余负号
+        left = (Node *)calloc(1, sizeof(Node));
+        memcpy(left->name, "SUB\n", sizeof("SUB\n"));
+        memcpy(left->value, "-\n", sizeof("-\n"));
+        temp->next = left;
+        temp = temp->next;
         lexicallyAnalyse();
     }
-    if(true != analysePrimaryExpr()) {
+    right = analysePrimaryExpr();
+    if(NULL == right) {
         throwError("add_expr", "分析primary_expr时出错");
-        return false;
+        return NULL;
     }
+    root->right = right;
+    temp = right;
     while(MUL_ == nToken.code || DIV_ == nToken.code || PERCENT_ == nToken.code) {
-        lexicallyAnalyse();
-        if(true != analysePrimaryExpr()) {
-            throwError("add_expr", "分析primary_expr时出错");
-            return false;
+        // 将运算符‘-’或‘+’放到右节点
+        left = (Node *)calloc(1, sizeof(Node));
+        left->value = (char *)calloc(2, sizeof(char));
+
+        if(MUL_ == nToken.code) {
+            memcpy(left->name, "MUL\n", sizeof("MUL\n"));
+            memcpy(left->value, "*\n", sizeof("*\n"));
+        } else if (DIV_ == nToken.code){
+            memcpy(left->name, "DIV\n", sizeof("DIV\n"));
+            memcpy(left->value, "\\\n", sizeof("\\\n"));
+        }else{
+            memcpy(left->name, "PERCENT\n", sizeof("PERCENT\n"));
+            memcpy(left->value, "%\n", sizeof("%\n"));
         }
+        // 配置右节点完成，转载右节点
+        temp->left = left;
+        lexicallyAnalyse();
+        // primary_expr
+        right = analysePrimaryExpr());
+        if(NULL == right) {// Failed
+            throwError("add_expr", "分析primary_expr时出错");
+            return NULL;
+        }
+        // Succeed
+        temp->right = right;
+        temp = temp->right;
     }
-    return true;
+
+    return root;
 }
 
 static Node *analysePrimaryExpr() {
@@ -706,116 +832,187 @@ static Node *analysePrimaryExpr() {
      * @author: 丁志鹏
      * @para: None
      * @return: bool
-     *          true    成功识别
-     *          false   不符合
+     *          Node *  成功识别并返回节点
+     *          NULL    识别失败
      */
+    Node *root;
+    Node *left, *right, *temp;
+    // root configuration
+    root = (Node *)calloc(1, sizeof(Node));
+    memcpy(root->name, "primary_expr\n", strlen("primary_expr\n"));
+    // start to judge
     if(NUMBER_ == nToken.code || STRING_ == nToken.code) { //判断数字与字符串
+        // 将运算符‘-’或‘+’放到右节点
+        right = (Node *)calloc(1, sizeof(Node));
+        right->value = (char *)calloc(strlen(nToken.value), sizeof(char));
+        if(NUMBER_ == nToken.code) {
+            memcpy(right->name, "NUMBER\n", strlen("NUMBER\n"));
+            memcpy(right->value, nToken.value, strlen(nToken.value));
+        } else {
+            memcpy(right->name, "STRING\n", strlen("STRING\n"));
+            memcpy(right->value, nToken.value, strlen(nToken.value));
+        }
+        // 配置右节点完成，转载右节点
+        root->right = right;
         lexicallyAnalyse();
     } else if(LP_ == nToken.code) { //判断到左括号
-        lexicallyAnalyse();
-        if(true != analyseExpr()) {
+        lexicallyAnalyse(); // do not record
+        left = analyseExpr();
+        if(NULL == left) {
             throwError("primary_expr", "格式'( expr )'错误");
-            return false;
+            return NULL;
         }
+        root->left = left;
         if(RP_ == nToken.code)
             lexicallyAnalyse();
-        else
-            return false;
+        else{
+            throwError("primary_expr", "格式'( expr )'错误");
+            return NULL;
+        }
     } else if(ID_ == nToken.code) { //判断到ID
+        left = (Node *)calloc(1, sizeof(Node));
+        memcpy(left->name, "ID\n", strlen("ID\n"));
+        memcpy(left->value, nToken.value, strlen(nToken.value));
         lexicallyAnalyse();
+        root->left = left;
         if(LP_ == nToken.code) { ///检测到左括号
             lexicallyAnalyse();
             if(RP_ == nToken.code) { ////若为ID '(' ')'，直接返回true
                 lexicallyAnalyse();
-                return true;
+                return root;
             }
-            if(true != analyseExprList()) { ////再判断expr_list
+            right = analyseExprList();
+            if(NULL == right) { ////再判断expr_list
                 throwError("primary_expr", "格式ID '(' expr_list ')'错误");
-                return false;
+                return NULL;
             }
+            root->right = right;
             if(RP_ != nToken.code) { ///检测到右括号
                 throwError("primary_expr", "格式ID '(' expr_list ')'丢失右括号");
-                return false;
+                return NULL;
             }
             lexicallyAnalyse();
         } else if(ASSIGNOP_ == nToken.code) { ///检测到等于号
+            // store the '='
+            right = (Node *)calloc(1, sizeof(Node));
+            right->value = (Node *)calloc(2, sizeof(char));
+            memcpy(right->name, "EQUAL\n", strlen("EQUAL\n"));
+            memcpy(right->value, "=\n", 2*sizeof(char));
+            root->right = right;
             lexicallyAnalyse();
-            if(true != analyseExprList()) { ////再判断expr_list
+            //judge the expr_list
+            left = analyseExprList();
+            if(NULL == left) {
                 throwError("primary_expr", "格式ID '(' expr_list ')'错误");
-                return false;
+                return NULL;
             }
+            root->right->left = left;
         } else if(LB_ == nToken.code) { ///检测到左中括号
             lexicallyAnalyse();
-            if(true != analyseExpr()) { ////再判断expr
+            right = analyseExpr();
+            if(NULL == right) { ////再判断expr
                 throwError("primary_expr", "格式ID '(' expr_list ')'错误");
                 return false;
             }
+            root->right = right;
             if(RB_ != nToken.code) { ////再判断右中括号
                 throwError("primary_expr", "格式ID '(' expr_list ')'错误");
-                return false;
+                return NULL;
             }
             lexicallyAnalyse();////已经匹配了右中括号,读入下一个
             if(ASSIGNOP_ == nToken.code) { /* ！发现异常！ */
+                // store the '='
+                left = (Node *)calloc(1, sizeof(Node));
+                left->value = (Node *)calloc(2, sizeof(char));
+                memcpy(left->name, "EQUAL\n", strlen("EQUAL\n"));
+                memcpy(left->value, "=\n", 2*sizeof(char));
+                root->right->left = left;
                 /* 若发现=，但后不跟expr，就会报错。但也有可能=是其他的 */
                 lexicallyAnalyse();
-                if(true != analyseExpr()) {
+                right = analyseExpr();
+                if(NULL == right) {
                     throwError("primary_expr", "格式ID '[' expr ']' '=' expr错误");
-                    return false;
+                    return NULL;
                 }
+                root->right->right = right;
             }
         }///判断到ID的内部if
     } else { //没有匹配项目
         throwError("primary_expr", "分析primay_expr时无匹配格式");
-        return false;
+        return NULL;
     }//结束
-    return true;
+    return root;
 }
 
 
 static Node *analyseIdList() {
     /*
-    * @author: 王明远
-    * @para: None
-    * @return: bool
-    *          true    成功识别IdList
-    *          false   不符合IdList
-    */
+     * @author: 丁志鹏
+     * @para: None
+     * @return: bool
+     *          Node *  成功识别并返回节点
+     *          NULL    识别失败
+     */
+    Node *root = (Node *)calloc(1, sizeof(Node));
+    memcpy(root->name, "id_list\n", strlen("id_list\n"));
+    Node *next, *temp;
     if(nToken.code == ID_ ) {
+        next = (Node *)calloc(1, sizeof(Node));
+        memcpy(next->name, "ID\n", strlen("ID\n"));
+        memcpy(next->value, nToken.value, strlen(nToken.value));
+        root->left = next;
         lexicallyAnalyse();
+        // configure the temp
+        temp = root->left;
         while(nToken.code == COMMA_) { // ',' COMMA_
             lexicallyAnalyse();
             if(nToken.code != ID_) {
                 throwError("id_list", "分析ID时出错");
                 return false;
             }
+            next = (Node *)calloc(1, sizeof(Node));
+            memcpy(next->name, "ID\n", strlen("ID\n"));
+            memcpy(next->value, nToken.value, strlen(nToken.value));
+            temp->next = next;
+            temp = temp->next;
         }
-        return true;
+        return root;
     } else {
         throwError("id_list", "无匹配出错");
-        return false;
+        return NULL;
     }
 }
 
 static Node *analyseExprList() {
     /*
-    * @author: 王明远
-    * @para: None
-    * @return: bool
-    *          true    成功识别ExprList
-    *          false   不符合ExprList
-    */
-    if(analyseExpr() == true) {
+     * @author: 丁志鹏
+     * @para: None
+     * @return: bool
+     *          Node *  成功识别并返回节点
+     *          NULL    识别失败
+     */
+    Node *root = (Node *)calloc(1, sizeof(Node));
+    memcpy(root->name, "expr_list\n", strlen("expr_list\n"));
+    Node *next, *temp;
+    next = analyseExpr();
+    if(NULL != next) {
+        root ->left = next;
+        // temp configuration
+        temp = next;
         while(nToken.code == COMMA_) { // ',' COMMA_
             lexicallyAnalyse();
-            if(analyseExpr() == false) {
-                throwError("expr_list","分析expr时出错");
+            next = analyseExpr();
+            if(NULL == next) {
+                throwError("expr_list", "分析expr时出错");
                 return false;
             }
+            temp->next = next;
+            temp = temp->next;
         }
-        return true;
+        return root;
     } else {
         throwError("id_list", "无匹配出错");
-        return false;
+        return NULL;
     }
 }
 

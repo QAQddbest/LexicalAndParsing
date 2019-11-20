@@ -19,11 +19,11 @@ void logcat(char *s) {
      * @alarm: 使用注意，需在函数运行时确认START_TIME的值
      */
     gettimeofday(&tv, NULL);
-    long t = tv.tv_sec*1000000 + tv.tv_usec;
+    long t = tv.tv_sec * 1000000 + tv.tv_usec;
     printf("%6ld : %s\n", t - START_TIME, s);
 }
 #endif
-void throwError(char *place, char *message){
+void throwError(char *place, char *message) {
     /*
      * @author: 丁志鹏
      * @para:

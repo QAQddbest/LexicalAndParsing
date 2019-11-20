@@ -23,13 +23,14 @@ int main(int argc, char *argv[]) {
      */
 #ifdef LOCAL
     gettimeofday(&tv, NULL);
-    START_TIME = tv.tv_sec*1000000 + tv.tv_usec;
+    START_TIME = tv.tv_sec * 1000000 + tv.tv_usec;
     logcat("开始运行程序");
 #endif // LOCAL
     FILE *in;
     Node *root;
     argc--;
     argv++;
+
     if(argc == 0) {
         printf("LEXER: 无输入文件");
         return 1;
@@ -39,12 +40,14 @@ int main(int argc, char *argv[]) {
             logcat("尝试打开文件并运行");
 #endif
             in = fopen(argv[0], "r");
+
             if(in == NULL) { // 判断打开文件成功与否
                 printf("LEXER: 打开文件%s失败\n", argv[0]);
                 argc--;
                 argv++;
                 continue;
             }
+
 #ifdef LOCAL
             logcat("开始语法分析");
 #endif // LOCAL
@@ -58,5 +61,6 @@ int main(int argc, char *argv[]) {
             argv++;
         }
     }
+
     return 0;
 }
