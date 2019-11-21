@@ -82,22 +82,24 @@ expr
 cmp_expr
     : add_expr { CMP add_expr }
     ;
-	
+    
 CMP
-	: >=
-	| <=
-	| ==
-	| >
-	| <
-	;
+    : >=
+    | <=
+    | ==
+    | >
+    | <
+    ;
 
 add_expr
-    : mul_expr {  '+' mul_expr | '-' mul_expr }
+    : mul_expr
+    | add_expr '+' mul_expr
+    | add_expr '-' mul_expr
     ;
-	
+    
 mul_expr
     : {'-'|空} primary_expr { '*' primary_expr | '/' primary_expr | '%' primary_expr}
-	;
+    ;
 
 primary_expr
     : ID '(' expr_list ')'
@@ -110,11 +112,11 @@ primary_expr
     | NUMBER
     | STRING
     ;
-	
+    
 expr_list
     : expr { ',' expr }
     ;
-	
+    
 id_list
     : ID { ',' ID }
     ;
