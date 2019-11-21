@@ -40,14 +40,12 @@ int main(int argc, char *argv[]) {
             logcat("尝试打开文件并运行");
 #endif
             in = fopen(argv[0], "r");
-
             if(in == NULL) { // 判断打开文件成功与否
                 printf("LEXER: 打开文件%s失败\n", argv[0]);
                 argc--;
                 argv++;
                 continue;
             }
-
 #ifdef LOCAL
             logcat("开始语法分析");
 #endif // LOCAL
