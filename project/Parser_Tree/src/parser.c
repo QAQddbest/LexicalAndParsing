@@ -125,7 +125,7 @@ static Node *analyseDeclarator(){
         }
         lexicallyAnalyse();
         root->path = 2;
-    }else if(LB_ == nToken.code){// [
+    }else if(LB_ == nToken.code){// ID '['
         lexicallyAnalyse();
         if(RB_ == nToken.code){// ID '[' ']'
             lexicallyAnalyse();
@@ -158,12 +158,12 @@ static Node *analyseDeclarator(){
             throwError("declarator","匹配expr失败");
             return NULL;
         }else{// ID '[' expr ']'
+
             if(RB_ != nToken.code) {
                 throwError("declarator", "格式ID '[' expr ']'丢失右括号");
                 return false;
             }
             lexicallyAnalyse();
-            // TODO: 下面内容完善
             // 判断是否有‘=’
             if(ASSIGNOP_ == nToken.code){
                 lexicallyAnalyse();
