@@ -1,10 +1,13 @@
+
+%%
 program
-   : external_declaration { external_declartion }
-   ;
+    : external_declaration
+    | program external_declaration
+    ;
 
 external_declaration
     : type declarator decl_or_stmt
-
+    ;
 
 decl_or_stmt
     : '{' statement_list '}'
@@ -14,18 +17,20 @@ decl_or_stmt
     ;
 
 declarator_list
-    : declarator { ',' declarator }
+    : declarator
+    | declarator_list ',' declarator
     ;
 
 intstr_list
-    : initializer { ',' initializer }
+    : initializer
+    | intstr_list ',' initializer
     ;
-
+    
 initializer
     : NUMBER
     | STRING
     ;
-
+   
 declarator
     : ID
     | ID '=' expr
@@ -38,13 +43,14 @@ declarator
     ;
 
 parameter_list
-        : parameter { ',' parameter }
+        : parameter
+        | parameter_list ',' parameter
         ;
+
 
 parameter
         : type ID
         ;
-
 type
         : INT
         | STR
@@ -60,35 +66,30 @@ statement
     | WHILE '(' expr ')' statement
     | RETURN ';'
     | RETURN expr ';'
-    | PRINT ';'
+    | PRINT ';
     | PRINT expr_list ';'
     | SCAN id_list ';'
     ;
 
-
 statement_list
-    : statement { statement }
+    : statement
+    | statement_list statement
     ;
+
 
 expression_statement
     : ';'
     | expr ';'
     ;
 
+
 expr
     : cmp_expr
     ;
 
 cmp_expr
-    : add_expr { CMP add_expr }
-    ;
-    
-CMP
-    : >=
-    | <=
-    | ==
-    | >
-    | <
+    : add_expr
+    | cmp_expr CMP add_expr
     ;
 
 add_expr
@@ -96,27 +97,34 @@ add_expr
     | add_expr '+' mul_expr
     | add_expr '-' mul_expr
     ;
-    
+
 mul_expr
-    : {'-'|空} primary_expr { '*' primary_expr | '/' primary_expr | '%' primary_expr}
+    : primary_expr
+    | mul_expr '*' primary_expr
+    | mul_expr '/' primary_expr
+    | mul_expr '%' primary_expr
+    | '-' primary_expr
     ;
 
 primary_expr
     : ID '(' expr_list ')'
     | ID '(' ')'
+    | '(' expr ')'
     | ID
+    | NUMBER
+    | STRING
+    | ID ASSIGN expr
     | ID '=' expr
     | ID '[' expr ']'
     | ID '[' expr ']' '=' expr
-    | '(' expr ')'
-    | NUMBER
-    | STRING
     ;
-    
 expr_list
-    : expr { ',' expr }
+    : expr
+    | expr_list ',' expr
     ;
-    
 id_list
-    : ID { ',' ID }
+    : ID
+    | id_list ',' ID
     ;
+
+
