@@ -40,7 +40,7 @@ Node *parsingAnalyse(FILE *in) {
 /* 样例函数：仿照本函数实现剩余函数 */
 static Node *analyseProgram() {
     /*
-    * @author: 丁志鹏
+    * @author: 黄粤升
     * @para: None
     * @return: bool
     *          Node *    成功识别Program
@@ -50,32 +50,31 @@ static Node *analyseProgram() {
     Node *next, *temp;
     Node *root = (Node *)calloc(1, sizeof(Node));
     // 初始化变量
-    memcpy(root->name, "program\n", strlen("program\n"));
+    memcpy(root->name, "program\0", strlen("program\0"));
+
     next = analyseExternalDeclaration();
-    if(isEndOfFile()) {
-        root->path = NULLPATH;
-        return root;
-    }
     temp = next;
-    if(NULL != next) {                              // 判断了至少一个external_declaration
-        root->left = next;                          // 加入program节点的左节点
-        next = analyseExternalDeclaration();        // 再次判断是否存在
-        while(NULL != next) {                       // 若仍成功
-            temp->next = next;                      // 将该同类节点放入next
-            temp = temp->next;                      // temp后移
-            next = analyseExternalDeclaration();    // 再次判断是否存在
-            if(isEndOfFile()) {
-                root->path = NULLPATH;
-                return root;
+    if(next != NULL) {                              // 判断了至少一个external_declaration
+        root->left = next;
+        while(nToken.code != EOF){
+            next = analyseExternalDeclaration();
+            if(next != NULL){
+                temp->next = next;
+                next = temp;
+            }
+            else{
+                throwError("program", "分析external_declaration时出错");
+                return NULL;
             }
         }
+        return root;
     } else {                                         // 一个external_declaration都没有：抛出错误
         throwError("program", "分析external_declaration时出错");
         return NULL;
     }
-
     return root;
 }
+
 
 static Node *analyseDeclarator() {
     /*
@@ -241,7 +240,7 @@ static Node *analyseExternalDeclaration() {
      */
     Node *next, *temp;
     Node *root = (Node *)calloc(1, sizeof(Node));
-    memcpy(root->name, "external_declaration\n", strlen("external_declaration\n"));
+    memcpy(root->name, "external_declaration\0", strlen("external_declaration\0"));
     next = analyseType();
     if(EOF == nToken.code){
         return NULL;
@@ -283,7 +282,7 @@ static Node *analyseDeclOrStmt() {
     */
     Node *next;
     Node *root = (Node *)calloc(1, sizeof(Node));
-    memcpy(root->name, "decl_or_stmt\n", strlen("decl_or_stmt\n"));
+    memcpy(root->name, "decl_or_stmt\0", strlen("decl_or_stmt\0"));
 
     if(nToken.code == LC_) { // '{'
         lexicallyAnalyse();
@@ -346,7 +345,7 @@ static Node *analyseDeclaratorList() {
 
     Node *next, *temp;
     Node *root = (Node *)calloc(1, sizeof(Node));
-    memcpy(root->name, "declarator_list\n", strlen("declarator_list\n"));
+    memcpy(root->name, "declarator_list\0", strlen("declarator_list\0"));
     next = analyseDeclarator();
     temp = next;
     if(next != NULL) {
@@ -419,11 +418,11 @@ static Node *analyseInitializer() {
     */
     Node *temp;
     Node *root = (Node *)calloc(1, sizeof(Node));
-    memcpy(root->name, "initializer", sizeof("initializer"));
+    memcpy(root->name, "initializer\0", strlen("initializer\0"));
 
     if(nToken.code == NUMBER_) {
         temp = (Node *)calloc(1, sizeof(Node));
-        memcpy(temp->name, "NUMBER", sizeof("NUMBER"));
+        memcpy(temp->name, "NUMBER\0", strlen("NUMBER\0"));
         root->left = temp; // NUMBER 作为root的左结点
         temp->value = (char *)calloc(strlen(nToken.value), sizeof(char));
         temp->value = nToken.value;
@@ -432,7 +431,7 @@ static Node *analyseInitializer() {
         return root;
     } else if( nToken.code == STR_) {
         temp = (Node *)calloc(1, sizeof(Node));
-        memcpy(temp->name, "STRING", sizeof("STRING"));
+        memcpy(temp->name, "STRING\0", strlen("STRING\0"));
         root->left = temp; // STRING 作为root的左结点
         temp->value = (char *)calloc(strlen(nToken.value), sizeof(char));
         temp->value = nToken.value;
@@ -456,7 +455,7 @@ static Node *analyseParameterList() {
 
     Node *next, *temp;
     Node *root = (Node *)calloc(1, sizeof(Node));
-    memcpy(root->name, "parameter_list\n", strlen("parameter_list\n"));
+    memcpy(root->name, "parameter_list\0", strlen("parameter_list\0"));
 
     next = analyseParameter();
     temp = next;
@@ -493,7 +492,7 @@ static Node *analyseParameter() {
     */
     Node *next;
     Node *root = (Node *)calloc(1, sizeof(Node));
-    memcpy(root->name, "parameter", sizeof("parameter"));
+    memcpy(root->name, "parameter\0", strlen("parameter\0"));
     next = analyseType();
 
     if(next != NULL) {
@@ -501,7 +500,7 @@ static Node *analyseParameter() {
 
         if(nToken.code == ID_) {
             next = (Node *)calloc(1, sizeof(Node));
-            memcpy(next->name, "ID\n", strlen("ID\n"));
+            memcpy(next->name, "ID\0", strlen("ID\0"));
             next->value = (char *)calloc(sizeof(nToken.value), sizeof(char));
             next->value = nToken.value;
             lexicallyAnalyse();
@@ -530,21 +529,21 @@ static Node *analyseType() {
     memcpy(root->name, "type", sizeof("type"));
     if(nToken.code == INT_ ) {
         temp = (Node *)calloc(1, sizeof(Node));
-        memcpy(temp->name, "INT\n", strlen("INT\n"));
+        memcpy(temp->name, "INT\0", strlen("INT\0"));
         root->left = temp; // INT 作为root的左结点
         lexicallyAnalyse();
         root->path = 0;
         return root;
     } else if(nToken.code == STR_) {
         temp = (Node *)calloc(1, sizeof(Node));
-        memcpy(temp->name, "STR\n", strlen("STR\n"));
+        memcpy(temp->name, "STR\0", strlen("STR\0"));
         root->left = temp; // STR 作为root的左结点
         lexicallyAnalyse();
         root->path = 1;
         return root;
     } else if(nToken.code == VOID_) {
         temp = (Node *)calloc(1, sizeof(Node));
-        memcpy(temp->name, "VOID\n", strlen("VOID\n"));
+        memcpy(temp->name, "VOID\0", strlen("VOID\0"));
         root->left = temp; // VOID 作为root的左结点
         lexicallyAnalyse();
         root->path = 2;
@@ -569,7 +568,7 @@ static Node *analyseStatement() {
 
     Node *next, *temp, *temp2;
     Node *root = (Node *)calloc(1, sizeof(Node));
-    memcpy(root->name, "statement\n", strlen("statement\n"));
+    memcpy(root->name, "statement\0", strlen("statement\0"));
 
     if(nToken.code == LC_) { // '{' LC
         lexicallyAnalyse();
@@ -650,7 +649,7 @@ static Node *analyseStatement() {
         }
     } else if(nToken.code == WHILE_) {
         temp = (Node *)calloc(1, sizeof(Node));
-        memcpy(temp->name, "WHILE\n", strlen("WHILE\n"));
+        memcpy(temp->name, "WHILE\0", strlen("WHILE\0"));
         root->left = temp; // WHILE 作为root的左结点
         lexicallyAnalyse();
 
@@ -687,7 +686,7 @@ static Node *analyseStatement() {
         }
     } else if(nToken.code == RETURN_) {
         temp = (Node *)calloc(1, sizeof(Node));
-        memcpy(temp->name, "RETURN\n", strlen("RETURN\n"));
+        memcpy(temp->name, "RETURN\0", strlen("RETURN\0"));
         root->left = temp; // RETURN 作为root的左结点
         lexicallyAnalyse();
 
@@ -712,7 +711,7 @@ static Node *analyseStatement() {
         }
     } else if(nToken.code == PRINT_) {
         temp = (Node *)calloc(1, sizeof(Node));
-        memcpy(temp->name, "PRINT\n", strlen("PRINT\n"));
+        memcpy(temp->name, "PRINT\0", strlen("PRINT\0"));
         root->left = temp; // PRINT 作为root的左结点
         lexicallyAnalyse();
 
@@ -737,7 +736,7 @@ static Node *analyseStatement() {
         }
     } else if(nToken.code == SCAN_) {
         temp = (Node *)calloc(1, sizeof(Node));
-        memcpy(temp->name, "SCAN\n", strlen("SCAN\n"));
+        memcpy(temp->name, "SCAN\0", strlen("SCAN\0"));
         root->left = temp; // SCAN 作为root的左结点
         lexicallyAnalyse();
         next = analyseIdList();
@@ -796,7 +795,7 @@ static Node *analyseStatementList() {
      */
     Node *next, *temp;
     Node *root = (Node *)calloc(1, sizeof(Node));
-    memcpy(root->name, "statement_list\n", strlen("statement_list\n"));
+    memcpy(root->name, "statement_list\0", strlen("statement_list\0"));
     next = analyseStatement();
     temp = next;
 
@@ -834,7 +833,7 @@ static Node *analyseExprStatement() {
 
     Node *next, *temp;
     Node *root = (Node *)calloc(1, sizeof(Node));
-    memcpy(root->name, "expr_statement", strlen("expr_statement\n"));
+    memcpy(root->name, "expr_statement\0", strlen("expr_statement\0"));
 
     if(nToken.code == SEM_) { //';'
         lexicallyAnalyse();
@@ -867,7 +866,7 @@ static Node *analyseExpr() {
      */
     Node *next;
     Node *root = (Node *)calloc(1, sizeof(Node));
-    memcpy(root->name, "expr\n", sizeof("expr\n"));
+    memcpy(root->name, "expr\0", sizeof("expr\0"));
     next = analyseCmpExpr();
 
     if(next != NULL) {
@@ -892,7 +891,7 @@ static Node *analyseCmpExpr() {
     Node *next;
     Node *root = (Node *)calloc(1, sizeof(Node));
     // 初始化变量
-    memcpy(root->name, "cmp_expr\n", strlen("cmp_expr\n"));
+    memcpy(root->name, "cmp_expr\0", strlen("cmp_expr\0"));
     next = analyseAddExpr();
 
     if(next != NULL) {
@@ -931,32 +930,32 @@ static Node *analyseCMP() {
 
     if(LE_ == nToken.code) {
         root->value = (char *)calloc(3, sizeof(char));
-        memcpy(root->name, "CMP\n", strlen("CMP\n"));
-        memcpy(root->value, "<=\n", strlen("<=\n"));
+        memcpy(root->name, "CMP\0", strlen("CMP\0"));
+        memcpy(root->value, "<=\0", strlen("<=\0"));
         root->path = 2;
         lexicallyAnalyse();
     } else if(GE_ == nToken.code) {
         root->value = (char *)calloc(3, sizeof(char));
-        memcpy(root->name, "CMP\n", strlen("CMP\n"));
-        memcpy(root->value, ">=\n", strlen(">=\n"));
+        memcpy(root->name, "CMP\0", strlen("CMP\0"));
+        memcpy(root->value, ">=\0", strlen(">=\0"));
         root->path = 1;
         lexicallyAnalyse();
     } else if(EQ_ == nToken.code) {
         root->value = (char *)calloc(3, sizeof(char));
-        memcpy(root->name, "CMP\n", strlen("CMP\n"));
-        memcpy(root->value, "==\n", strlen("==\n"));
+        memcpy(root->name, "CMP\0", strlen("CMP\0"));
+        memcpy(root->value, "==\0", strlen("==\0"));
         root->path = 3;
         lexicallyAnalyse();
     } else if(GT_ == nToken.code) {
         root->value = (char *)calloc(3, sizeof(char));
-        memcpy(root->name, "CMP\n", strlen("CMP\n"));
-        memcpy(root->value, ">\n", strlen(">\n"));
+        memcpy(root->name, "CMP\0", strlen("CMP\0"));
+        memcpy(root->value, ">\0", strlen(">\0"));
         root->path = 4;
         lexicallyAnalyse();
     } else if(LT_ == nToken.code) {
         root->value = (char *)calloc(3, sizeof(char));
-        memcpy(root->name, "CMP\n", strlen("CMP\n"));
-        memcpy(root->value, "<\n", strlen("<\n"));
+        memcpy(root->name, "CMP\0", strlen("CMP\0"));
+        memcpy(root->value, "<\0", strlen("<\0"));
         root->path = 5;
         lexicallyAnalyse();
     } else {
@@ -976,7 +975,7 @@ static Node *analyseAddExpr() {
      */
     Node *next;
     Node *root = (Node *)calloc(1, sizeof(Node));
-    memcpy(root->name, "add_expr", strlen("add_expr\n"));
+    memcpy(root->name, "add_expr\0", strlen("add_expr\0"));
     next = analyseMulExpr();
 
     if(next != NULL) {
@@ -1023,7 +1022,7 @@ static Node *analyseMulExpr() {
      *          NULL    识别失败
      */
     Node *root = (Node *)calloc(1, sizeof(Node));
-    memcpy(root->name, "mul_expr", strlen("mul_expr"));
+    memcpy(root->name, "mul_expr\0", strlen("mul_expr\0"));
     Node *left, *right, *temp;
 
     if(SUB_ == nToken.code) {
@@ -1095,19 +1094,18 @@ static Node *analysePrimaryExpr() {
     Node *left, *right, *temp;
     // root configuration
     root = (Node *)calloc(1, sizeof(Node));
-    memcpy(root->name, "primary_expr\n", strlen("primary_expr\n"));
-
+    memcpy(root->name, "primary_expr\0", strlen("primary_expr\0"));
     // start to judge
     if(NUMBER_ == nToken.code || STRING_ == nToken.code) { //判断数字与字符串
         left = (Node *)calloc(1, sizeof(Node));
         left->value = (char *)calloc(strlen(nToken.value), sizeof(char));
 
         if(NUMBER_ == nToken.code) {
-            memcpy(left->name, "NUMBER\n", strlen("NUMBER\n"));
+            memcpy(left->name, "NUMBER\0", strlen("NUMBER\0"));
             memcpy(left->value, nToken.value, strlen(nToken.value));
             root->path = 7;
         } else {
-            memcpy(left->name, "STRING\n", strlen("STRING\n"));
+            memcpy(left->name, "STRING\0", strlen("STRING\0"));
             memcpy(left->value, nToken.value, strlen(nToken.value));
             root->path = 8;
         }
@@ -1136,7 +1134,7 @@ static Node *analysePrimaryExpr() {
     } else if(ID_ == nToken.code) { //判断到ID
         left = (Node *)calloc(1, sizeof(Node));
         left->value = (char *)calloc(strlen(nToken.value), sizeof(char));
-        memcpy(left->name, "ID\n", strlen("ID\n"));
+        memcpy(left->name, "ID\0", strlen("ID\0"));
         memcpy(left->value, nToken.value, strlen(nToken.value));
         lexicallyAnalyse();
         root->left = left;
@@ -1171,8 +1169,8 @@ static Node *analysePrimaryExpr() {
             // store the '='
             right = (Node *)calloc(1, sizeof(Node));
             right->value = (char *)calloc(2, sizeof(char));
-            memcpy(right->name, "EQUAL\n", strlen("EQUAL\n"));
-            memcpy(right->value, "=\n", 2 * sizeof(char));
+            memcpy(right->name, "EQUAL\0", strlen("EQUAL\0"));
+            memcpy(right->value, "=\0", 2 * sizeof(char));
             root->right = right;
             lexicallyAnalyse();
             //judge the expr_list
@@ -1208,8 +1206,8 @@ static Node *analysePrimaryExpr() {
                 // store the '='
                 left = (Node *)calloc(1, sizeof(Node));
                 left->value = (char *)calloc(2, sizeof(char));
-                memcpy(left->name, "EQUAL\n", strlen("EQUAL\n"));
-                memcpy(left->value, "=\n", 2 * sizeof(char));
+                memcpy(left->name, "EQUAL\0", strlen("EQUAL\0"));
+                memcpy(left->value, "=\0", 2 * sizeof(char));
                 root->right->left = left;
                 /* 若发现=，但后不跟expr，就会报错。但也有可能=是其他的 */
                 lexicallyAnalyse();
@@ -1241,12 +1239,12 @@ static Node *analyseIdList() {
      *          NULL    识别失败
      */
     Node *root = (Node *)calloc(1, sizeof(Node));
-    memcpy(root->name, "id_list\n", strlen("id_list\n"));
+    memcpy(root->name, "id_list\0", strlen("id_list\0"));
     Node *next, *temp;
 
     if(nToken.code == ID_ ) {
         next = (Node *)calloc(1, sizeof(Node));
-        memcpy(next->name, "ID\n", strlen("ID\n"));
+        memcpy(next->name, "ID\0", strlen("ID\0"));
         memcpy(next->value, nToken.value, strlen(nToken.value));
         root->left = next;
         lexicallyAnalyse();
@@ -1284,7 +1282,7 @@ static Node *analyseExprList() {
      *          NULL    识别失败
      */
     Node *root = (Node *)calloc(1, sizeof(Node));
-    memcpy(root->name, "expr_list\n", strlen("expr_list\n"));
+    memcpy(root->name, "expr_list\0", strlen("expr_list\0"));
     Node *next, *temp;
     next = analyseExpr();
 

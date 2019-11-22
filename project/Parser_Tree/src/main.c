@@ -10,14 +10,9 @@
 extern long START_TIME;
 #endif // LOCAL
 
-char TAB_TEMPLATE[] = "\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t \
-                         \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t \
-                         \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t \
-                         \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t \
-                         \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t \
-                         \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t \
-                         \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t \
-                         \t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t\t";
+char TAB_TEMPLATE[] = "                                                       \
+                                                                              \
+                                                                              ";
 
 int main(int argc, char *argv[]) {
     /*
@@ -61,10 +56,10 @@ int main(int argc, char *argv[]) {
             logcat("开始语法分析");
 #endif // LOCAL
             root = parsingAnalyse(in);
-            printTheSyntaxTree(root, 0);
 #ifdef LOCAL
             logcat("语法分析结束");
 #endif // LOCAL
+            printTheSyntaxTree(root, 0);
             fclose(in);
             argc--;
             argv++;
@@ -75,7 +70,7 @@ int main(int argc, char *argv[]) {
 }
 
 void printTheSyntaxTree(Node *root, int tabLength){
-    if(root->path = NULLPATH){ // 子节点不缩进,本节点不输出
+    if(root->path == NULLPATH){ // 子节点不缩进,本节点不输出
         // 输出左节点
         if(NULL != root->left){
             printTheSyntaxTree(root->left, tabLength);
@@ -93,13 +88,13 @@ void printTheSyntaxTree(Node *root, int tabLength){
         memcpy(tab, TAB_TEMPLATE, tabLength);
         tab[tabLength] = '\0';
         // 输出本节点
-        printf("%s%5s:", root->name);
+        printf("%s%s:", tab, root->name);
         if(NULL != root->value){
-            printf("%5s:", root->name);
+            printf("%s:", root->name);
         }else{
-            printf("%5s:", ' ');
+            printf("%3s:", " ");
         }
-        printf("%5d", root->path);
+        printf("%d\n", root->path);
         // 输出左节点
         if(NULL != root->left){
             printTheSyntaxTree(root->left, tabLength + TAB_LENG);
