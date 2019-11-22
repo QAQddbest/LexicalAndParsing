@@ -1116,15 +1116,12 @@ static Node *analysePrimaryExpr() {
     } else if(LP_ == nToken.code) { //判断到左括号
         lexicallyAnalyse(); // do not record
         left = analyseExpr();
-
         if(NULL == left) {
             throwError("primary_expr", "格式'( expr )'错误");
             return NULL;
         }
-
         root->left = left;
         root->path = 6;
-
         if(RP_ == nToken.code)
             lexicallyAnalyse();
         else {
@@ -1139,33 +1136,27 @@ static Node *analysePrimaryExpr() {
         lexicallyAnalyse();
         root->left = left;
         root->path = 2;
-
         if(LP_ == nToken.code) { ///检测到左括号
             lexicallyAnalyse();
-
             if(RP_ == nToken.code) { ////若为ID '(' ')'，直接返回true
                 lexicallyAnalyse();
                 root->path = 1;
                 return root;
             }
-
             right = analyseExprList();
-
             if(NULL == right) { ////再判断expr_list
                 throwError("primary_expr", "格式ID '(' expr_list ')'错误");
                 return NULL;
             }
-
             root->right = right;
             root->path = 0;
-
             if(RP_ != nToken.code) { ///检测到右括号
                 throwError("primary_expr", "格式ID '(' expr_list ')'丢失右括号");
                 return NULL;
             }
-
             lexicallyAnalyse();
         } else if(ASSIGNOP_ == nToken.code) { ///检测到等于号
+            lexicallyAnalyse();
             //judge the expr_list
             right = analyseExprList();
             if(NULL == right) {
@@ -1177,22 +1168,17 @@ static Node *analysePrimaryExpr() {
         } else if(LB_ == nToken.code) { ///检测到左中括号
             lexicallyAnalyse();
             right = analyseExpr();
-
             if(NULL == right) { ////再判断expr
                 throwError("primary_expr", "格式ID '(' expr_list ')'错误");
                 return NULL;
             }
-
             root->right = right;
-
             if(RB_ != nToken.code) { ////再判断右中括号
                 throwError("primary_expr", "格式ID '(' expr_list ')'错误");
                 return NULL;
             }
-
             lexicallyAnalyse();////已经匹配了右中括号,读入下一个
             root->path = 4;
-
             if(ASSIGNOP_ == nToken.code) { /* ！发现异常！ */
                 /* 若发现=，但后不跟expr，就会报错。但也有可能=是其他的 */
                 lexicallyAnalyse();
