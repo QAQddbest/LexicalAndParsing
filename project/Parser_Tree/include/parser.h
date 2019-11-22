@@ -11,11 +11,13 @@
 #include <stdlib.h>
 #include "project.h"
 #include <string.h>
-// NULLPATH 赋值给节点的path变量，表示当前节点为暂用节点，不含任何有用信息，仅仅作为桥梁
-#define NULLPATH -1
+#include <stdbool.h>
+
 
 void initLexer(FILE *);
 void lexicallyAnalyse();
+
+bool isEndOfFile();
 
 static Node *analyseCmpExpr();
 static Node *analyseAddExpr();

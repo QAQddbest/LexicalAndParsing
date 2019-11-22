@@ -12,6 +12,6 @@
 #include <string.h>
 
 Node *parsingAnalyse(FILE *);
-
+void printTheSyntaxTree(Node *, int);
 
 #endif // MAIN_H
