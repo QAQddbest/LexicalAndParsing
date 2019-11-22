@@ -60,7 +60,7 @@ static Node *analyseProgram() {
             next = analyseExternalDeclaration();
             if(next != NULL){
                 temp->next = next;
-                next = temp;
+                temp = next;
             }
             else{
                 throwError("program", "分析external_declaration时出错");
@@ -461,6 +461,7 @@ static Node *analyseParameterList() {
     temp = next;
 
     if(next != NULL) {
+        root->left = next;
         while(nToken.code == COMMA_) { // ',' COMMA_
             lexicallyAnalyse();
             next = analyseParameter();
@@ -505,6 +506,7 @@ static Node *analyseParameter() {
             next->value = nToken.value;
             lexicallyAnalyse();
             root->path = 0;
+            root->right = next;
             return root;
         } else {
             throwError("parameter", "分析ID时出错");
@@ -591,7 +593,7 @@ static Node *analyseStatement() {
         }
     } else if(nToken.code == IF_) {
         temp = (Node *)calloc(1, sizeof(Node));
-        memcpy(temp->name, "IF\n", strlen("IF\n"));
+        memcpy(temp->name, "IF\0", strlen("IF\0"));
         root->left = temp; // IF 作为root的左结点
         temp2 = temp;
         lexicallyAnalyse();
@@ -612,7 +614,7 @@ static Node *analyseStatement() {
 
                         if(nToken.code == ELSE_) {
                             temp = (Node *)calloc(1, sizeof(Node));
-                            memcpy(temp->name, "ELSE\n", strlen("ELSE\n"));
+                            memcpy(temp->name, "ELSE\0", strlen("ELSE\0"));
                             temp2->next = temp; // ELSE 作为IF的后续结点
                             temp2 = temp;
                             lexicallyAnalyse();
@@ -1099,7 +1101,6 @@ static Node *analysePrimaryExpr() {
     if(NUMBER_ == nToken.code || STRING_ == nToken.code) { //判断数字与字符串
         left = (Node *)calloc(1, sizeof(Node));
         left->value = (char *)calloc(strlen(nToken.value), sizeof(char));
-
         if(NUMBER_ == nToken.code) {
             memcpy(left->name, "NUMBER\0", strlen("NUMBER\0"));
             memcpy(left->value, nToken.value, strlen(nToken.value));
@@ -1109,7 +1110,6 @@ static Node *analysePrimaryExpr() {
             memcpy(left->value, nToken.value, strlen(nToken.value));
             root->path = 8;
         }
-
         // 配置左节点完成，转载左节点
         root->left = left;
         lexicallyAnalyse();
@@ -1166,22 +1166,13 @@ static Node *analysePrimaryExpr() {
 
             lexicallyAnalyse();
         } else if(ASSIGNOP_ == nToken.code) { ///检测到等于号
-            // store the '='
-            right = (Node *)calloc(1, sizeof(Node));
-            right->value = (char *)calloc(2, sizeof(char));
-            memcpy(right->name, "EQUAL\0", strlen("EQUAL\0"));
-            memcpy(right->value, "=\0", 2 * sizeof(char));
-            root->right = right;
-            lexicallyAnalyse();
             //judge the expr_list
-            left = analyseExprList();
-
-            if(NULL == left) {
+            right = analyseExprList();
+            if(NULL == right) {
                 throwError("primary_expr", "格式ID '(' expr_list ')'错误");
                 return NULL;
             }
-
-            root->right->left = left;
+            root->right = right;
             root->path = 3;
         } else if(LB_ == nToken.code) { ///检测到左中括号
             lexicallyAnalyse();
@@ -1203,22 +1194,14 @@ static Node *analysePrimaryExpr() {
             root->path = 4;
 
             if(ASSIGNOP_ == nToken.code) { /* ！发现异常！ */
-                // store the '='
-                left = (Node *)calloc(1, sizeof(Node));
-                left->value = (char *)calloc(2, sizeof(char));
-                memcpy(left->name, "EQUAL\0", strlen("EQUAL\0"));
-                memcpy(left->value, "=\0", 2 * sizeof(char));
-                root->right->left = left;
                 /* 若发现=，但后不跟expr，就会报错。但也有可能=是其他的 */
                 lexicallyAnalyse();
-                right = analyseExpr();
-
-                if(NULL == right) {
+                left = analyseExpr();
+                if(NULL == left) {
                     throwError("primary_expr", "格式ID '[' expr ']' '=' expr错误");
                     return NULL;
                 }
-
-                root->right->right = right;
+                root->right->left = left;
                 root->path  = 5;
             }
         }///判断到ID的内部if
