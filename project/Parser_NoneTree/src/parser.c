@@ -225,8 +225,8 @@ static bool analyseDeclarator(){
         // 判断是否有‘=’
         if(ASSIGNOP_ == nToken.code){
             lexicallyAnalyse();
-            while(true == analyseIntstList()){
-                
+            while(true == analyseIntstrList()){
+
             }
         }
     }

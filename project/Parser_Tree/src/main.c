@@ -90,7 +90,7 @@ void printTheSyntaxTree(Node *root, int tabLength){
         // 输出本节点
         printf("%s%s:", tab, root->name);
         if(NULL != root->value){
-            printf("%s:", root->name);
+            printf("%s:", root->value);
         }else{
             printf("%3s:", " ");
         }

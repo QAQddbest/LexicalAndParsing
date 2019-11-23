@@ -40,7 +40,7 @@
 #define PERCENT_ 32
 
 #define VIRT_PATH -1
-#define TAB_LENG 4
+#define TAB_LENG 2
 
 // NULLPATH 赋值给节点的path变量，表示当前节点为暂用节点，不含任何有用信息，仅仅作为桥梁
 #define NULLPATH -1
